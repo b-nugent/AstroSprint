@@ -30,7 +30,6 @@ var scoreText = undefined;
 
 function preload() {
 	game.load.image('sky', 'assets/sky.png');
-	game.load.image('ground', 'assets/platform.png');
 	game.load.image('star', 'assets/star.png');
 	game.load.image('diamond', 'assets/diamond.png');
     game.load.image('planet', 'assets/circle.png');
@@ -46,7 +45,8 @@ function create() {
     planet = game.add.sprite(game.world.width/2, game.world.height/2, 'planet');
 	
 	//player
-    player = game.add.sprite(planet.x, planet.y - (planet.width / 2 + 9), 'dude');
+    //player = game.add.sprite(planet.x, planet.y - (planet.width / 2 + 9), 'dude');
+    player = game.add.sprite(planet.x + 20, planet.y + (planet.width / 2 + 9), 'dude');
 	
 	game.physics.p2.enable([planet, player], true);
 	
@@ -57,7 +57,8 @@ function create() {
     
     //player physics properties
     player.body.collideWorldBounds = true;
-    player.body.velocity.x = 0;
+    debugger;
+    player.body.velocity.x = 1;
     player.anchor.setTo(0.5, 0.5);
     
     //two animations for walking left and right
@@ -96,21 +97,21 @@ function create() {
 }
 
 function update() {
-    //collide player and stars with the platforms
     
-    //reset player velocity
+    playerForceReset(player);
     
-    //move left
-    player.animations.play('left');
+    //calculate the angle between the player and the planet
+    var angle = Math.atan2(planet.y - player.y, planet.x - player.x);
+    
+    //move player
+    var playerSpeed = 30;
+    playerMove(player, angle, playerSpeed);
     
     
     //calculate gravity
     var strength = 500;
-    debugger;
-    var gravity = new Phaser.Point(planet.body.x - player.body.x, planet.body.y - player.body.y);
-    player.body.velocity = player.body.velocity + (gravity.normalize().multiply(strength, strength));
     
-    
+    applyGravity(player, angle, strength);
     
     /*
     
@@ -125,6 +126,32 @@ function update() {
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this);
     */
 }
+    
+    //apply parameterized gravity on a given player toward a planet
+    function applyGravity(player, angle, strength)
+    {
+        player.animations.play('left');
+        player.body.rotation = angle + game.math.degToRad(90) * -1;
+        player.body.force.x += Math.cos(angle) * strength;
+        player.body.force.y += Math.sin(angle) * strength;
+    }
+    function playerMove(player, angle, speed)
+    {
+        
+        player.body.force.x += Math.cos(angle + 90) * speed;
+        player.body.force.y += Math.sin(angle + 90) * speed;
+    }
+    
+    function playerForceReset(player)
+    {
+        player.body.force.x = 0;
+        player.body.force.y = 0;
+    }
+    
+    function grounded(player, planet)
+    {
+        var touchingGround = false; 
+    }
     
     
     /*function collectStar(player, star)
