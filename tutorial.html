@@ -57,43 +57,17 @@ function create() {
     
     //player physics properties
     player.body.collideWorldBounds = true;
-    debugger;
     player.body.velocity.x = 1;
     player.anchor.setTo(0.5, 0.5);
     
     //two animations for walking left and right
     player.animations.add('left', [0,1,2,3], 10, true);
+    player.grounded = false;
     
     cursors = game.input.keyboard.createCursorKeys();
     
-    /*stars = game.add.group();
-    stars.enableBody = true;
-    
-    diamonds = game.add.group();
-    diamonds.enableBody = true;
-    
-    //create 12 evenly spaced drops
-    for(var i = 0; i < 12; i++)
-    {
-        if(i%4 != 0){
-            //create a star inside the stars group
-            var star = stars.create(i * 70, -50, 'star');
-
-            //set star gravity
-            star.body.gravity.y = 6;
-
-            //gives each star a slightly random bounce value
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }
-        else{
-            //create a diamond
-            var diamond = diamonds.create(i * 70, -50, 'diamond');
-            diamond.body.gravity.y = 9;
-            diamond.body.bounce.y = 0.8 + Math.random() * 0.2;
-        }
-    }*/
-    
-//    scoreText = game.add.text(16, 16, 'Gravity: n/a', {fontSize: '32px', fill: '#fff'});
+    player.body.onBeginContact.add(playerContact, this);
+    player.body.onEndContact.add(playerEndContact, this);
 }
 
 function update() {
@@ -113,56 +87,122 @@ function update() {
     
     applyGravity(player, angle, strength);
     
-    /*
     
     //allow player jump if they are touching the ground
-    if(cursors.up.isDown && player.body.touching.down)
+    if(cursors.up.isDown && player.grounded)
     {
-        player.body.velocity.y = -300;
+        var jumpStrength = 10000;
+        playerJump(player, angle, jumpStrength);
     }
     
+    //allow the player to fall if not grounded
+    if(cursors.down.isDown && !player.grounded)
+    {
+        var jumpStrength = 1000;
+        playerFall(player, angle, jumpStrength);
+    }
+    
+    
     //check for players overlapping with stars
+    /*
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     game.physics.arcade.overlap(player, diamonds, collectDiamond, null, this);
     */
 }
     
-    //apply parameterized gravity on a given player toward a planet
+    //be attracted toward the center of the planet
     function applyGravity(player, angle, strength)
     {
-        player.animations.play('left');
-        player.body.rotation = angle + game.math.degToRad(90) * -1;
         player.body.force.x += Math.cos(angle) * strength;
         player.body.force.y += Math.sin(angle) * strength;
     }
+    
+    //move the player
     function playerMove(player, angle, speed)
     {
-        
+        player.animations.play('left');
+        player.body.rotation = angle + game.math.degToRad(90) * -1;
         player.body.force.x += Math.cos(angle + 90) * speed;
         player.body.force.y += Math.sin(angle + 90) * speed;
     }
     
+    //player jump
+    function playerJump(player, angle, speed)
+    {
+        player.body.force.x += Math.cos(angle * -1) * speed;
+        player.body.force.y += Math.sin(angle * -1) * speed;
+    }
+    function playerFall(player, angle, speed)
+    {
+        player.body.force.x += Math.cos(angle) * speed;
+        player.body.force.y += Math.sin(angle) * speed;
+    }
+    
+    //reset the forces on the player to 0
     function playerForceReset(player)
     {
         player.body.force.x = 0;
         player.body.force.y = 0;
     }
     
-    function grounded(player, planet)
+    /*function grounded(player, planet, angle)
     {
-        var touchingGround = false; 
+        var grounded = false;
+        var groundPoint = new Phaser.Point(player.body.x + (Math.cos(angle) * (player.body.width + 1)), player.body.y + (Math.sin(angle)* (player.body.height + 1)));
+        
+        var graphics = game.add.graphics(0,0);
+    
+        graphics.beginFill(0xFFCC00, 1);
+        graphics.drawCircle(groundPoint.x, groundPoint.y, 10);
+        
+        
+        var touchedPlanets = game.physics.p2.hitTest(groundPoint, planet);
+        
+        if(touchedPlanets.length == 1)
+        {
+            grounded = true;
+        }
+        
+        return grounded;
+    }*/
+    
+    
+    function playerContact(body, shapeA, shapeB, equation)
+    {
+        if(body != null)
+        {
+            switch(body.sprite.key){
+                    case "planet":
+                        setGrounded();
+                        break;
+                    case "star":
+                        collectStar(body);
+                        break;
+            }
+        }
+    }
+    function playerEndContact(body, shapeA, shapeB, equation)
+    {
+        if(body != null)
+        {
+            switch(body.sprite.key){
+                    case "planet":
+                        setGrounded();
+                        break;
+            }
+        }
     }
     
-    
-    /*function collectStar(player, star)
+    function collectStar(star)
     {
         //removes the star from the screen
         star.kill();
-        
-        //update score
-        score += 10
-        scoreText.text = 'Score: ' + score;
-    }*/
+    }
+    
+    function setGrounded()
+    {
+        player.grounded = !player.grounded;
+    }
 
 </script>
 
