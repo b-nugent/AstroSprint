@@ -23,7 +23,7 @@ var platforms = undefined;
 var player = undefined;
 var planet = undefined;
 var cursors = undefined;
-var stars = undefined;
+var star = undefined;
 var diamonds = undefined;
 var score = 0;
 var scoreText = undefined;
@@ -39,7 +39,12 @@ function preload() {
 function create() {
 	//start the physics system
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	
+    // Arcade needs to be active for stars to work.
+    //game.physics.startSystem(Phaser.Physics.ARCADE);
+    
+    scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '24px', fill: '#F0F' });
+
+    
     
     //add simple planet
     planet = game.add.sprite(game.world.width/2, game.world.height/2, 'planet');
@@ -48,7 +53,12 @@ function create() {
     //player = game.add.sprite(planet.x, planet.y - (planet.width / 2 + 9), 'dude');
     player = game.add.sprite(planet.x + 20, planet.y + (planet.width / 2 + 9), 'dude');
 	
-	game.physics.p2.enable([planet, player], true);
+    star = game.add.sprite(500, 250, 'star');
+    
+    
+	game.physics.p2.enable([planet, player, star], true);
+    // Arcade needs to be active for stars to work.
+    //game.physics.arcade.enable(player);
 	
 	//planet
     planet.body.static = true;
@@ -60,18 +70,28 @@ function create() {
     player.body.velocity.x = 1;
     player.anchor.setTo(0.5, 0.5);
     
+    //star
+    //star.body.static = true;
+    
     //two animations for walking left and right
     player.animations.add('left', [0,1,2,3], 10, true);
     player.grounded = false;
     
     cursors = game.input.keyboard.createCursorKeys();
     
+    
+    
+    //stars = game.add.group();
+    //stars.enableBody = true;
+    //var star = stars.create(275, 250, 'star');
+    //star.body.gravity.y = 6;
+    
+    
     player.body.onBeginContact.add(playerContact, this);
     player.body.onEndContact.add(playerEndContact, this);
 }
 
 function update() {
-    
     playerForceReset(player);
     
     //calculate the angle between the player and the planet
@@ -98,10 +118,15 @@ function update() {
     //allow the player to fall if not grounded
     if(cursors.down.isDown && !player.grounded)
     {
-        var jumpStrength = 1000;
+        var jumpStrength = 5000;
         playerFall(player, angle, jumpStrength);
     }
     
+    player.body.angularVelocity = clampSpeed(player);
+    
+    // Star collision
+    //game.physics.arcade.collide(stars);
+    //game.physics.arcade.overlap(player, stars, collectStar, null, this);
     
     //check for players overlapping with stars
     /*
@@ -124,13 +149,14 @@ function update() {
         player.body.rotation = angle + game.math.degToRad(90) * -1;
         player.body.force.x += Math.cos(angle + 90) * speed;
         player.body.force.y += Math.sin(angle + 90) * speed;
+
     }
     
     //player jump
     function playerJump(player, angle, speed)
     {
-		console.log(Math.abs(Math.cos(angle * -1) * speed));
-		console.log(angle);
+		//console.log(Math.abs(Math.cos(angle * -1) * speed));
+		//console.log(angle);
 		if(angle > 0){
 			player.body.force.x += Math.abs(Math.cos(angle * -1) * speed) * -1;
 			player.body.force.y += Math.abs(Math.sin(angle * -1) * speed) * -1;
@@ -142,6 +168,7 @@ function update() {
     }
     function playerFall(player, angle, speed)
     {
+        
         player.body.force.x += Math.cos(angle) * speed;
         player.body.force.y += Math.sin(angle) * speed;
     }
@@ -204,12 +231,66 @@ function update() {
     function collectStar(star)
     {
         //removes the star from the screen
-        star.kill();
+        //star.alive = false;
+        //star.exists = false;
+        star.destroy();
+        
+        score += 10;
+        scoreText.text = 'Score: ' + score;
     }
     
     function setGrounded()
     {
         player.grounded = !player.grounded;
+    }
+    
+    function getMag(x, y) {
+        //var vector = new Phaser.Point(x, y);
+        //var magnitude = vector.getMagnitude();
+        var magnitude = Math.sqrt((x * x) + (y * y));
+        return magnitude;
+    }
+    
+    function normalizeVector(vector) {
+        var normalizedX = vector.x / getMag(vector.x, vector.y);
+        var normalizedY = vector.x / getMag(vector.x, vector.y);
+        var normalizedVector = new Phaser.Vector(normalizedX, normalizedY);
+        return normalizedVector;
+    }
+    
+    
+    function clampSpeed(player) {
+        //var body = player.body;
+        var currentSpeed = getMag(player.body.angularVelocity.x, player.body.angularVelocity.y);
+        //var currentSpeed = player.body.angularVelocity;
+        //console.log("X: " + player.body.velocity.x + " Y: " + player.body.velocity.y);
+        //var currentSpeed = player.body.velocity.getMagnitude();
+        //console.log("CurrentSpeed: " + currentSpeed);
+        //console.log(player.body.angularVelocity);
+        var maxSpeed = -5;
+        var minSpeed = 0.5;
+        if(currentSpeed < maxSpeed || currentSpeed > minSpeed) {
+            //debugger;
+            // Issue here when you make a point from the angular velocity (it becomes a 0,0 point.
+            //var point = new Phaser.Point(player.body.angularVelocity.x, player.body.angularVelocity.y);
+            //var newVector = point.normalize();
+            //newVector *= maxSpeed;
+            //return newVector;
+            var newSpeed = normalizeVector(player.body.angularVelocity) * maxSpeed;
+            return newSpeed;
+        } else {
+            return player.body.angularVelocity;
+        }
+        /*
+        if (currentSpeed < 0) {
+            currentSpeed = 0;
+            return currentSpeed;
+        }
+        
+        return currentSpeed;
+        */
+        
+        
     }
 
 </script>
