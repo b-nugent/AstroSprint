@@ -76,7 +76,7 @@ function update() {
     
     //calculate the angle between the player and the planet
     var angle = Math.atan2(planet.y - player.y, planet.x - player.x);
-    
+
     //move player
     var playerSpeed = 30;
     playerMove(player, angle, playerSpeed);
@@ -129,8 +129,16 @@ function update() {
     //player jump
     function playerJump(player, angle, speed)
     {
-        player.body.force.x += Math.cos(angle * -1) * speed;
-        player.body.force.y += Math.sin(angle * -1) * speed;
+		console.log(Math.abs(Math.cos(angle * -1) * speed));
+		console.log(angle);
+		if(angle > 0){
+			player.body.force.x += Math.abs(Math.cos(angle * -1) * speed) * -1;
+			player.body.force.y += Math.abs(Math.sin(angle * -1) * speed) * -1;
+		}
+		else{
+			player.body.force.x += Math.abs(Math.cos(angle * -1) * speed);
+			player.body.force.y += Math.abs(Math.sin(angle * -1) * speed);
+		}
     }
     function playerFall(player, angle, speed)
     {
