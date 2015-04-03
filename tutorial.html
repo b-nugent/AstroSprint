@@ -218,7 +218,7 @@ function update() {
     }
     function playerEndContact(body, shapeA, shapeB, equation)
     {
-        if(body != null)
+        if(body != null && body.sprite != null)
         {
             switch(body.sprite.key){
                     case "planet":
@@ -232,7 +232,8 @@ function update() {
     {
         //removes the star from the screen
         //star.alive = false;
-        //star.exists = false;
+        debugger;
+        star.sprite.exists = false;
         star.destroy();
         
         score += 10;
