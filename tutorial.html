@@ -96,24 +96,27 @@ function update() {
     
     //calculate the angle between the player and the planet
     var angle = Math.atan2(planet.y - player.y, planet.x - player.x);
+    player.body.rotation = angle + game.math.degToRad(90) * -1;
 
-    //move player
-    var playerSpeed = 30;
-    playerMove(player, angle, playerSpeed);
+    if(player.grounded)
+    {
+        //move player
+        var playerSpeed = 30;
+        playerMove(player, angle, playerSpeed);
+
+        //allow player jump if they are touching the ground
+        if(cursors.up.isDown)
+        {
+            var jumpStrength = 10000;
+            playerJump(player, angle, jumpStrength);
+        }
+    }
     
     
     //calculate gravity
     var strength = 500;
     
     applyGravity(player, angle, strength);
-    
-    
-    //allow player jump if they are touching the ground
-    if(cursors.up.isDown && player.grounded)
-    {
-        var jumpStrength = 10000;
-        playerJump(player, angle, jumpStrength);
-    }
     
     //allow the player to fall if not grounded
     if(cursors.down.isDown && !player.grounded)
@@ -146,7 +149,6 @@ function update() {
     function playerMove(player, angle, speed)
     {
         player.animations.play('left');
-        player.body.rotation = angle + game.math.degToRad(90) * -1;
         player.body.force.x += Math.cos(angle + 90) * speed;
         player.body.force.y += Math.sin(angle + 90) * speed;
 
@@ -232,7 +234,6 @@ function update() {
     {
         //removes the star from the screen
         //star.alive = false;
-        debugger;
         star.sprite.exists = false;
         star.destroy();
         
@@ -267,7 +268,7 @@ function update() {
         //console.log("X: " + player.body.velocity.x + " Y: " + player.body.velocity.y);
         //var currentSpeed = player.body.velocity.getMagnitude();
         //console.log("CurrentSpeed: " + currentSpeed);
-        //console.log(player.body.angularVelocity);
+        console.log(player.body.angularVelocity);
         var maxSpeed = -5;
         var minSpeed = 0.5;
         if(currentSpeed < maxSpeed || currentSpeed > minSpeed) {
