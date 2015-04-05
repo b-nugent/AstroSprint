@@ -21,13 +21,44 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var platforms = undefined;
 var player = undefined;
-var planet = undefined;
+var planets[] = undefined;
 var cursors = undefined;
 var star = undefined;
 var diamonds = undefined;
 var score = 0;
 var scoreText = undefined;
 
+Astronaut = function(game, x, y, planet) {
+    Phaser.Sprite.call(this, game, x, y, 'dude');
+    this.planet = planet;
+    var speed = 0;
+};
+
+Astronaut.prototype = Object.create(Phaser.Sprite.prototype);
+Astronaut.prototype.constructor = Astronaut;
+    
+Astronaut.prototype.update = function() {
+    playerMove(player, angle, speed);
+};
+    
+Astronaut.prototype.move = function() {
+};
+
+Astronaut.prototype.fall = function() {
+};
+
+Astronaut.prototype.jump = function() {
+};
+
+Astronaut.prototype.forceReset = function() {
+};
+
+Astronaut.prototype.contact = function() {
+};
+
+Astronaut.prototype.endContact = function() {
+};
+    
 function preload() {
 	game.load.image('sky', 'assets/sky.png');
 	game.load.image('star', 'assets/star.png');
@@ -51,8 +82,9 @@ function create() {
 	
 	//player
     //player = game.add.sprite(planet.x, planet.y - (planet.width / 2 + 9), 'dude');
-    player = game.add.sprite(planet.x + 20, planet.y + (planet.width / 2 + 9), 'dude');
-	
+    //player = game.add.sprite(planet.x + 20, planet.y + (planet.width / 2 + 9), 'dude');
+	var player = new Astronaut(planet.x + 20, planet.y + (planet.width / 2 + 9), planets[0]);
+    
     star = game.add.sprite(500, 250, 'star');
     
     
