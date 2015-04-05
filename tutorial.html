@@ -199,6 +199,26 @@ function update() {
 			player.body.force.x += Math.abs(Math.cos(angle * -1) * speed);
 			player.body.force.y += Math.abs(Math.sin(angle * -1) * speed);
 		}
+        
+        /*
+        //attempts to target specific quadrants of the circles
+        if(angle > 0 && angle <= 90){
+			player.body.force.x += Math.abs(Math.cos(90 - angle) * speed) * -1;
+			player.body.force.y += Math.abs(Math.sin(90 - angle) * speed) * -1;
+		}
+		else if (angle < 0 && angle >= -90) {
+			player.body.force.x += Math.abs(Math.cos(180 - angle) * speed);
+			player.body.force.y += Math.abs(Math.sin(180 - angle) * speed);
+		}
+        else if (angle < -90 && angle <= -180) {
+			player.body.force.x += Math.abs(Math.cos(360 - angle) * speed);
+			player.body.force.y += Math.abs(Math.sin(360 - angle) * speed);
+		}
+        else {
+            player.body.force.x += Math.abs(Math.cos(270 - angle) * speed);
+			player.body.force.y += Math.abs(Math.sin(270 - angle) * speed);
+        }
+        */
     }
     function playerFall(player, angle, speed)
     {
