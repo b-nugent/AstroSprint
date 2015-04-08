@@ -21,12 +21,14 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var platforms = undefined;
 var player = undefined;
-var planet = undefined;
+var planet1 = undefined;
+var planet2 = undefined;
 var cursors = undefined;
 var star = undefined;
 var score = 0;
 var scoreText = undefined;
-
+var targetPlanet = undefined;
+var offGround = false;
 
 function preload() {
 	game.load.image('sky', 'assets/sky.png');
@@ -47,25 +49,37 @@ function create() {
     
     
     //add simple planet
-    planet = game.add.sprite(game.world.width/2, game.world.height/2, 'planet');
-	
+    planet1 = game.add.sprite(game.world.width/2, game.world.height/2, 'planet');
+	planet2 = game.add.sprite(600, 150, 'planet');
 	//player
     //player = game.add.sprite(planet.x, planet.y - (planet.width / 2 + 9), 'dude');
-    player = game.add.sprite(planet.x + 20, planet.y + (planet.width / 2 + 9), 'dude');
-	//var player = new Astronaut(planet.x + 20, planet.y + (planet.width / 2 + 9), planets[0]);
+    player = game.add.sprite(planet1.x + 20, planet1.y + (planet1.width / 2 + 9), 'dude');
+	//var player = new Astronaut(planet.x + 20, planet.y + (planet.width / 2 + 9), planet1);
     
     star = game.add.sprite(500, 250, 'star');
     
     
-	game.physics.p2.enable([planet, player, star], true);
+	
     // Arcade needs to be active for stars to work.
     //game.physics.arcade.enable(player);
+	game.physics.p2.enable([player, star], false);
+	//planet 
 	
-	//planet
-    planet.body.static = true;
-    planet.anchor.setTo(0.5, 0.5); 
-    planet.body.setCircle(92);
-    
+	game.physics.p2.enable(planet1, false);
+	
+	planet1.body.static = true;
+	planet1.anchor.setTo(0.5, 0.5);  
+	planet1.body.setCircle(92);
+
+	targetPlanet = planet1;
+	
+	game.physics.p2.enable(planet2, false);
+	
+	planet2.body.static = true;
+	planet2.anchor.setTo(0.5, 0.5); 
+	planet2.body.setCircle(92);
+	
+	
     //player physics properties
     player.body.collideWorldBounds = true;
     player.body.velocity.x = 1;
@@ -96,13 +110,13 @@ function update() {
     playerForceReset(player);
     
     //calculate the angle between the player and the planet
-    var angle = Math.atan2(planet.y - player.y, planet.x - player.x);
+    var angle = Math.atan2(targetPlanet.y - player.y, targetPlanet.x - player.x);
     player.body.rotation = angle + game.math.degToRad(90) * -1;
 
     if(player.grounded)
     {
         //move player
-        var playerSpeed = 30;
+        var playerSpeed = 300;
         playerMove(player, angle, playerSpeed);
 
         //allow player jump if they are touching the ground
@@ -110,6 +124,7 @@ function update() {
         {
             var jumpStrength = 10000;
             playerJump(player, angle, jumpStrength);
+			offGround = true;
         }
     }
     
@@ -122,7 +137,8 @@ function update() {
     //allow the player to fall if not grounded
     if(cursors.down.isDown && !player.grounded)
     {
-        var jumpStrength = 5000;
+       // console.log(player.grounded);
+		var jumpStrength = 5000;
         playerFall(player, angle, jumpStrength);
     }
     
@@ -144,6 +160,21 @@ function update() {
     {
         player.body.force.x += Math.cos(angle) * strength;
         player.body.force.y += Math.sin(angle) * strength;
+		//should we be attracted to a new planet)
+		if(offGround){
+			if(targetPlanet === planet1){
+				if(game.physics.arcade.distanceBetween(planet2,player) < 125){
+					targetPlanet = planet2;
+					offGround = false;
+				}
+			}
+			else{
+				if(game.physics.arcade.distanceBetween(planet1,player) < 125){
+					targetPlanet = planet1;
+					offGround = false;
+				}
+			}
+		}
     }
     
     //move the player
@@ -221,6 +252,7 @@ function update() {
             switch(body.sprite.key){
                     case "planet":
                         setGrounded();
+						offGround = false;
                         break;
                     case "star":
                         collectStar(body);
