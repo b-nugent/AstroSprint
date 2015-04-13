@@ -22,8 +22,8 @@ var GameScreen = function(game)
         create: function(){
             console.log("Game Screen Create");
             
-            
-            //add planets
+            this.loadLevel("test");
+            /*//add planets
             this.planets = game.add.group();
 
             var planet1 = this.planets.create(game.world.width/2, game.world.height/2, 'planet');
@@ -53,10 +53,10 @@ var GameScreen = function(game)
             this.player.slamStrength = 5000;
             this.player.runSpeed = 300;
 
-
+*/
             this.cursors = game.input.keyboard.createCursorKeys();
 
-            //add a group of stars to the game
+            /*//add a group of stars to the game
             this.stars = game.add.group();
             var star1 = this.stars.create(500, 250, 'star');
             game.physics.p2.enable(star1, false);
@@ -73,7 +73,7 @@ var GameScreen = function(game)
             var wormhole = this.wormholes.create(200, 175, 'wormhole');
             game.physics.p2.enable(wormhole, false);
             wormhole.anchor.setTo(0.5, 0.5);
-
+*/
 
             this.player.body.onBeginContact.add(this.playerContact, this);
             this.player.body.onEndContact.add(this.playerEndContact, this);
@@ -254,4 +254,65 @@ var GameScreen = function(game)
         {
             this.player.grounded = !this.player.grounded;
         },
+        
+         //JSON Loading for levels
+        loadLevel: function(levelNum){
+			
+				// JSON.parse() converts a string to JSON.
+ 				var myJSON = JSON.parse(game.cache.getText(levelNum));
+ 				
+ 				var level = myJSON.level;
+                
+                //Planets
+                var planets = level.planets;
+                this.planets = game.add.group();
+				for( var i = 0; i < planets.length; i++){
+					var planet = planets[i];
+                    var currentPlanet = this.planets.create(planet.x, planet.y, 'planet');
+				    //do all that planet physics stuff
+                    game.physics.p2.enable(currentPlanet, false);
+                    currentPlanet.body.static = true;
+                    currentPlanet.anchor.setTo(0.5, 0.5);  
+                    currentPlanet.body.setCircle(92); 
+                    currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
+                    if(i == 0){
+                         //This is where we should put the player based on the first planet
+                        this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
+                        this.player.animations.add('left', [0,1,2,3], 10, true);
+                        this.player.animations.add('right', [5,6,7,8], 10, true);
+                        game.physics.p2.enable(this.player, false);
+                        this.player.body.collideWorldBounds = true;
+                        this.player.body.velocity.x = 1;
+                        this.player.anchor.setTo(0.5, 0.5);
+                        this.player.grounded = false;
+                        this.player.targetPlanet = currentPlanet;
+                        this.player.jumpStrength = 10000;
+                        this.player.slamStrength = 5000;
+                        this.player.runSpeed = 300;
+                    }
+				}
+                
+                //Stars
+				var stars = level.stars;
+                this.stars = game.add.group();
+				for( var i = 0; i < stars.length; i++){
+					var star = stars[i];
+                    var currentStar = this.stars.create(star.x, star.y, 'star');
+				    //do all that star physics stuff
+                    game.physics.p2.enable(currentStar, false);
+                    currentStar.anchor.setTo(0.5, 0.5);
+				}
+                
+                //Wormhole
+                var wormholes = level.wormholes;
+                this.wormholes = game.add.group();
+				for( var i = 0; i < wormholes.length; i++){
+					var wormhole = wormholes[i];
+                    var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
+				    //do all that wormhole physics stuff
+                    game.physics.p2.enable(currentWormhole, false);
+                    currentWormhole.anchor.setTo(0.5, 0.5);
+				}
+			}
+
     }
