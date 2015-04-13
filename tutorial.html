@@ -24,13 +24,24 @@ var player = undefined;
 var planets = undefined;
 var cursors = undefined;
 var stars = undefined;
-var score = 0;
+var wormholes = undefined;
+var totalScore = 0;
+var roundScore = 0;
 var scoreText = undefined;
 //var targetPlanet = undefined;
 var offGround = false;
+//var roundOver = false;
+var GAME_STATE_MENU = 0;
+var GAME_STATE_PLAY = 1;
+var GAME_STATE_ROUND_OVER = 2;
+var GAME_STATE_ROUND_REPEAT = 3;
+var GAME_STATE_GAME_OVER = 4;
+var GAME_STATE_PAUSE = 5;
+var currentState = GAME_STATE_PLAY;
 
 function preload() {
 	game.load.image('sky', 'assets/sky.png');
+    game.load.image('wormhole', 'assets/diamond.png');
 	game.load.image('star', 'assets/star.png');
     game.load.image('planet', 'assets/circle.png');
 	game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
@@ -92,7 +103,13 @@ function create() {
 	star2.anchor.setTo(0.5, 0.5);  
     var star3 = stars.create(planet2.x + (planet2.width / 2), planet2.y - (planet2.width / 2), 'star');
     game.physics.p2.enable(star3, false);
-	star3.anchor.setTo(0.5, 0.5);  
+	star3.anchor.setTo(0.5, 0.5);
+    
+    // Create and setup the wormhole
+    wormholes = game.add.group();
+    var wormhole = wormholes.create(600, 215, 'wormhole');
+    game.physics.p2.enable(wormhole, false);
+    wormhole.anchor.setTo(0.5, 0.5);
 
     
     
@@ -101,40 +118,48 @@ function create() {
 }
 
 function update() {
-    playerForceReset(player);
-    
-    //calculate the angle between the player and the planet
-    var angle = Math.atan2(player.targetPlanet.y - player.y, player.targetPlanet.x - player.x);
-    player.body.rotation = angle + game.math.degToRad(90) * -1;
-    
-    if(player.grounded)
-    {
-        //move player
-        playerMove(player, angle);
+    if (currentState == GAME_STATE_PLAY) {
+        playerForceReset(player);
 
-        //allow player jump if they are touching the ground
-        if(cursors.up.isDown)
+        //calculate the angle between the player and the planet
+        var angle = Math.atan2(player.targetPlanet.y - player.y, player.targetPlanet.x - player.x);
+        player.body.rotation = angle + game.math.degToRad(90) * -1;
+
+        if(player.grounded)
         {
-            playerJump(player, angle);
-            player.grounded = false;
+            //move player
+            playerMove(player, angle);
+
+            //allow player jump if they are touching the ground
+            if(cursors.up.isDown)
+            {
+                playerJump(player, angle);
+                player.grounded = false;
+            }
         }
+        else{
+            calculateTargetPlanet(player, planets);
+        }
+
+
+        //calculate gravity
+        var strength = 500;
+        applyGravity(player, angle, strength);
+
+        //allow the player to fall if not grounded
+        if(cursors.down.isDown && !player.grounded)
+        {
+            playerFall(player, angle);
+        }
+
+        //player.body.angularVelocity = clampSpeed(player);
+    } else if(currentState == GAME_STATE_ROUND_OVER) {
+        //CLEAR THE SCREEN
+        //SHOW TEXT
+        // Adds the round score to the total score and clears the round score
+        totalScore += roundScore;
+        roundScore = 0;
     }
-    else{
-        calculateTargetPlanet(player, planets);
-    }
-    
-    
-    //calculate gravity
-    var strength = 500;
-    applyGravity(player, angle, strength);
-    
-    //allow the player to fall if not grounded
-    if(cursors.down.isDown && !player.grounded)
-    {
-        playerFall(player, angle);
-    }
-    
-    //player.body.angularVelocity = clampSpeed(player);
 }
     
     //calculate which planet the player should be attracted to
@@ -261,6 +286,10 @@ function update() {
                     case "star":
                         collectStar(body);
                         break;
+                    case "wormhole":
+                        //collideWormhole(wormhole);
+                        currentState = GAME_STATE_ROUND_OVER;
+                        break;
             }
         }
     }
@@ -283,9 +312,10 @@ function update() {
         star.sprite.exists = false;
         star.destroy();
         
-        score += 10;
-        scoreText.text = 'Score: ' + score;
+        roundScore += 10;
+        scoreText.text = 'Score: ' + roundScore;
     }
+    
     
     function setGrounded()
     {
