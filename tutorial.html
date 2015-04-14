@@ -6,7 +6,8 @@
 	<script type="text/javascript" src="js/phaser.js"></script>
     <script type="text/javascript" src="js/intro.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="levels/testLevel.json"></script>
+    <script type="text/javascript" src="js/levelSelect.js"></script>
+    <script type="text/javascript" src="levels/level0.json"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -26,6 +27,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO);
     
 game.state.add('Game', GameScreen);
 game.state.add('Intro', IntroScreen);
+game.state.add('Level', LevelScreen);
 game.state.start('Intro');
     
 

@@ -14,7 +14,7 @@ IntroScreen.prototype = {
         this.game.load.image('star', 'assets/star.png');
         this.game.load.image('planet', 'assets/circle.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        this.game.load.text('test','levels/testLevel.json');
+        this.game.load.text('level0','levels/level0.json');
     },
 
     create: function(){
@@ -28,11 +28,10 @@ IntroScreen.prototype = {
     },
 
     playGame: function(){
-        this.game.state.start("Game");
+        this.game.state.start("Level");
     },
     shutdown: function(){
-        console.log("Intro init called");
-        console.log("Intro game state left");
+        console.log("intro state left");
         
     }
 }

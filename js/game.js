@@ -25,58 +25,11 @@ var GameScreen = function(game)
             console.log("Game Screen Create");
             //this.loadLevel(this.levels[this.currentLevel]);
             this.game.add.sprite(0, 0, 'sky');
-            this.loadLevel("test");
-            /*//add planets
-            this.planets = game.add.group();
-
-            var planet1 = this.planets.create(game.world.width/2, game.world.height/2, 'planet');
-            game.physics.p2.enable(planet1, false);
-            planet1.body.static = true;
-            planet1.anchor.setTo(0.5, 0.5);  
-            planet1.body.setCircle(92); 
-
-            var planet2 = this.planets.create(600, 150, 'planet');
-            game.physics.p2.enable(planet2, false);
-            planet2.body.static = true;
-            planet2.anchor.setTo(0.5, 0.5);  
-            planet2.body.setCircle(48);
-            planet2.scale = new Phaser.Point(0.5, 0.5);
-
-            //player
-            this.player = game.add.sprite(planet1.x, planet1.y - (planet1.width / 2 + 9), 'dude');
-            this.player.animations.add('left', [0,1,2,3], 10, true);
-            this.player.animations.add('right', [5,6,7,8], 10, true);
-            game.physics.p2.enable(this.player, false);
-            this.player.body.collideWorldBounds = true;
-            this.player.body.velocity.x = 1;
-            this.player.anchor.setTo(0.5, 0.5);
-            this.player.grounded = false;
-            this.player.targetPlanet = planet1;
-            this.player.jumpStrength = 10000;
-            this.player.slamStrength = 5000;
-            this.player.runSpeed = 300;
-
-*/
+            this.loadLevel("level"+this.currentLevel);
+            //this.loadLevel("test");
+            
             this.cursors = game.input.keyboard.createCursorKeys();
 
-            /*//add a group of stars to the game
-            this.stars = game.add.group();
-            var star1 = this.stars.create(500, 250, 'star');
-            game.physics.p2.enable(star1, false);
-            star1.anchor.setTo(0.5, 0.5);  
-            var star2 = this.stars.create(planet1.x, planet1.y + (planet1.width / 2) + 90, 'star');
-            game.physics.p2.enable(star2, false);
-            star2.anchor.setTo(0.5, 0.5);  
-            var star3 = this.stars.create(planet2.x + (planet2.width / 2), planet2.y - (planet2.width / 2), 'star');
-            game.physics.p2.enable(star3, false);
-            star3.anchor.setTo(0.5, 0.5);
-
-            // Create and setup the wormhole
-            this.wormholes = game.add.group();
-            var wormhole = this.wormholes.create(200, 175, 'wormhole');
-            game.physics.p2.enable(wormhole, false);
-            wormhole.anchor.setTo(0.5, 0.5);
-*/
 
             this.player.body.onBeginContact.add(this.playerContact, this);
             this.player.body.onEndContact.add(this.playerEndContact, this);
@@ -225,7 +178,7 @@ var GameScreen = function(game)
                         case "wormhole":
                             //collideWormhole(wormhole);
                             //currentState = GAME_STATE_ROUND_OVER;
-                            this.game.state.start('Intro');
+                            this.game.state.start('Level');
                             break;
                 }
             }
@@ -260,7 +213,6 @@ var GameScreen = function(game)
         
          //JSON Loading for levels
         loadLevel: function(levelNum){
-			
 				// JSON.parse() converts a string to JSON.
  				var myJSON = JSON.parse(game.cache.getText(levelNum));
  				
@@ -304,6 +256,7 @@ var GameScreen = function(game)
 				    //do all that star physics stuff
                     game.physics.p2.enable(currentStar, false);
                     currentStar.anchor.setTo(0.5, 0.5);
+                    
 				}
                 
                 //Wormhole
@@ -314,7 +267,10 @@ var GameScreen = function(game)
                     var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
 				    //do all that wormhole physics stuff
                     game.physics.p2.enable(currentWormhole, false);
+                    currentWormhole.body.static = true;
+                    currentWormhole.body.setCircle(45); 
                     currentWormhole.anchor.setTo(0.5, 0.5);
+                    
 				}
 			}
 
