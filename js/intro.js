@@ -10,7 +10,7 @@ IntroScreen.prototype = {
         this.game.load.image('play', 'assets/play.png');
         //this.game.load.image('quit', 'assets/quit.png');
         this.game.load.image('sky', 'assets/sky.png');
-        this.game.load.image('wormhole', 'assets/diamond.png');
+        this.game.load.image('wormhole', 'assets/wormhole.png');
         this.game.load.image('star', 'assets/star.png');
         this.game.load.image('planet', 'assets/circle.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);

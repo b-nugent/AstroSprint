@@ -24,6 +24,7 @@ var GameScreen = function(game)
         create: function(){
             console.log("Game Screen Create");
             //this.loadLevel(this.levels[this.currentLevel]);
+            this.game.add.sprite(0, 0, 'sky');
             this.loadLevel("test");
             /*//add planets
             this.planets = game.add.group();
