@@ -10,6 +10,8 @@ var GameScreen = function(game)
         this.roundScore = 0;
         this.scoreText = undefined;
         this.offGround = false;
+        this.levels = undefined;
+        this.currentLevel = 0;
     }
     
     GameScreen.prototype = {
@@ -21,7 +23,7 @@ var GameScreen = function(game)
         
         create: function(){
             console.log("Game Screen Create");
-            
+            //this.loadLevel(this.levels[this.currentLevel]);
             this.loadLevel("test");
             /*//add planets
             this.planets = game.add.group();
