@@ -228,7 +228,7 @@ var GameScreen = function(game)
                     game.physics.p2.enable(currentPlanet, false);
                     currentPlanet.body.static = true;
                     currentPlanet.anchor.setTo(0.5, 0.5);  
-                    currentPlanet.body.setCircle(92); 
+                    currentPlanet.body.setCircle(92 * planet.scale); 
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
                     if(i == 0){
                          //This is where we should put the player based on the first planet
