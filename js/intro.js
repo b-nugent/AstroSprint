@@ -18,6 +18,7 @@ IntroScreen.prototype = {
         this.game.load.image('sky', 'assets/sky.png');
         this.game.load.image('wormhole', 'assets/wormhole.png');
         this.game.load.image('star', 'assets/star.png');
+        this.game.load.image('darkstar', 'assets/darkstar.png');
         this.game.load.image('planet', 'assets/circle.png');
         this.game.load.image('levelcomplete', 'assets/levelcomplete.png');
         this.game.load.image('bigstar', 'assets/bigstar.png');
