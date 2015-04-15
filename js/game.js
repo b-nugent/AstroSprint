@@ -4,6 +4,7 @@ var GameScreen = function(game)
         this.player = undefined;
         this.planets = undefined;
         this.cursors = undefined;
+        this.spaceKey = undefined;
         this.stars = undefined;
         this.wormholes = undefined;
         this.totalScore = 0;
@@ -23,12 +24,18 @@ var GameScreen = function(game)
         
         create: function(){
             console.log("Game Screen Create");
+            
+            
             //this.loadLevel(this.levels[this.currentLevel]);
             this.game.add.sprite(0, 0, 'sky');
             this.loadLevel("level"+this.currentLevel);
             //this.loadLevel("test");
             
             this.cursors = game.input.keyboard.createCursorKeys();
+            
+            this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+            this.spaceKey.onDown.add(this.handleSpacePress, this);
 
 
             this.player.body.onBeginContact.add(this.playerContact, this);
@@ -38,38 +45,41 @@ var GameScreen = function(game)
         },
         
         update: function(){
-            this.playerForceReset(this.player);
-
+            //this.playerForceReset(this.player);
+            
             //calculate the angle between the player and the planet
-            var angle = Math.atan2(this.player.targetPlanet.y - this.player.y, this.player.targetPlanet.x - this.player.x);
-            this.player.body.rotation = angle + game.math.degToRad(90) * -1;
+            this.currentAngle = Math.atan2(this.player.targetPlanet.y - this.player.y, this.player.targetPlanet.x - this.player.x);
+            this.player.body.rotation = this.currentAngle + game.math.degToRad(90) * -1;
 
             if(this.player.grounded)
             {
                 //move player
-                this.playerMove(this.player, angle);
+                this.playerMove(this.player, this.currentAngle);
+                
 
                 //allow player jump if they are touching the ground
-                if(this.cursors.up.isDown)
+                /*if(!this.player.jumped && spaceJustDown)
                 {
-                    this.playerJump(this.player, angle);
-                    this.player.grounded = false;
-                }
+                    this.playerJump(this.player, this.currentAngle);
+                    //this.player.grounded = false;
+                     this.player.jumped = true;
+                }*/
+                //this.player.grounded = true;
             }
-            else{
+            if(this.player.jumped){
                 this.calculateTargetPlanet(this.player, this.planets);
             }
 
 
             //calculate gravity
             var strength = 500;
-            this.applyGravity(this.player, angle, strength);
+            this.applyGravity(this.player, this.currentAngle, strength);
 
             //allow the player to fall if not grounded
-            if(this.cursors.down.isDown && !this.player.grounded)
+            /*if(spaceJustDown && this.player.jumped)
             {
                 this.playerFall(this.player, angle);
-            }   
+            } */  
         },
         
         //calculate the planet that the player should be attracted to
@@ -105,7 +115,7 @@ var GameScreen = function(game)
         playerMove: function(player, angle)
         {
             var speed = player.runSpeed;
-
+            
             player.animations.play('left');
             player.body.force.x += Math.cos(angle + 90) * speed;
             player.body.force.y += Math.sin(angle + 90) * speed;
@@ -125,7 +135,9 @@ var GameScreen = function(game)
         },
         
         playerJump: function(player, angle){
+            console.log("Jump");
             var speed = player.jumpStrength;
+            player.jumped = true;
         
             if (angle > 0){
                 if(angle > game.math.degToRad(90)) {
@@ -152,7 +164,7 @@ var GameScreen = function(game)
         
          playerFall: function(player, angle) {
             var speed = player.slamStrength;
-
+            
             player.body.force.x += Math.cos(angle) * speed;
             player.body.force.y += Math.sin(angle) * speed;
         },
@@ -170,10 +182,13 @@ var GameScreen = function(game)
             {
                 switch(body.sprite.key){
                         case "planet":
-                            this.setGrounded();
+                            //this.setGrounded();
+                            this.player.grounded = true;
+                            this.player.jumped = false;
                             break;
                         case "star":
                             this.collectStar(body);
+                            this.player.jumped = true;
                             break;
                         case "wormhole":
                             //collideWormhole(wormhole);
@@ -189,7 +204,8 @@ var GameScreen = function(game)
             {
                 switch(body.sprite.key){
                         case "planet":
-                            this.setGrounded();
+                            //this.setGrounded();
+                            this.player.grounded = false;
                             break;
                 }
             }
@@ -201,14 +217,37 @@ var GameScreen = function(game)
             //star.alive = false;
             star.sprite.exists = false;
             star.destroy();
-
-            
         },
 
 
         setGrounded: function()
         {
             this.player.grounded = !this.player.grounded;
+        },
+        
+        handleSpacePress: function()
+        {
+            if(!this.player.jumped)
+            {
+                //console.log(game.math.radToDeg(this.currentAngle));
+                this.playerJump(this.player, this.currentAngle);
+                this.player.jumped = true;
+            }
+            else
+            {
+                this.playerFall(this.player, this.currentAngle);
+            }
+            
+            /*switch(this.player.jumped){
+                    case true:
+                        this.playerFall(this.player, this.angle);
+                        break;
+                    case false:
+                        this.playerJump(this.player, this.currentAngle);
+                        //this.player.grounded = false;
+                        this.player.jumped = true;
+                        break;
+            }*/
         },
         
          //JSON Loading for levels
@@ -240,9 +279,10 @@ var GameScreen = function(game)
                         this.player.body.velocity.x = 1;
                         this.player.anchor.setTo(0.5, 0.5);
                         this.player.grounded = false;
+                        this.player.jumped = true;
                         this.player.targetPlanet = currentPlanet;
-                        this.player.jumpStrength = 10000;
-                        this.player.slamStrength = 5000;
+                        this.player.jumpStrength = 17500;
+                        this.player.slamStrength = 16000;
                         this.player.runSpeed = 300;
                     }
 				}
@@ -272,6 +312,8 @@ var GameScreen = function(game)
                     currentWormhole.anchor.setTo(0.5, 0.5);
                     
 				}
+            
+                this.currentAngle = 0;
 			}
 
     }
