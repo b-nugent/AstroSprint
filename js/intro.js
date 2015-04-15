@@ -19,6 +19,8 @@ IntroScreen.prototype = {
 
     create: function(){
         console.log("Intro create");
+        var bg = this.game.add.sprite(0, 0, 'sky');
+        bg.tint = 0x525252;
         var playButton = this.game.add.button(game.world.width/2, game.world.height/2, "play", this.playGame, this);
         playButton.anchor.setTo(0.5, 0.5);
         /*
