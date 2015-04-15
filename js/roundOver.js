@@ -9,6 +9,7 @@ RoundOverScreen.prototype = {
         var numStarsCollected = 0;
         var statusText = undefined;
         var stars;
+        var buttonSound = undefined;
     },
 
     preload: function(){
@@ -78,15 +79,18 @@ RoundOverScreen.prototype = {
     },
 
     retryRound: function(){
+        this.buttonSound.play();
         this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
     nextRound: function(){
+        this.buttonSound.play();
         this.game.state.states.Game.currentLevel++;
         this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
     levelSelect: function(){
+        this.buttonSound.play();
         this.numStarsCollected = 0;
         this.game.state.start("Level");
     }
