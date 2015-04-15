@@ -41,7 +41,7 @@ LevelScreen.prototype = {
             button.level = i;
             button.anchor.setTo(0.5, 0.5);
             
-            var title = game.add.text(button.x + 0.5, button.y + 2, '' + button.level, { font: "900 'Orbitron', sans-serif", fontSize: '32px', fill: '#e2fbb6' });
+            var title = game.add.text(button.x + 0.5, button.y + 2, '' + (button.level + 1), { font: "900 'Orbitron', sans-serif", fontSize: '32px', fill: '#e2fbb6' });
             title.anchor.setTo(0.5, 0.5);
 
             this.buttons.add(button);
@@ -55,7 +55,6 @@ LevelScreen.prototype = {
         this.game.state.start("Game");
     },
     shutdown: function(){
-        console.log("Intro game state left");
         
     }
 }

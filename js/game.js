@@ -54,7 +54,8 @@ var GameScreen = function(game)
             if(this.player.grounded)
             {
                 //move player
-                this.playerMove(this.player, this.currentAngle);
+                this.playerMove(this.player, this.currentAngle, this.player.targetPlanet.friction);
+                //this.playerMove(this.player, this.currentAngle, 1.0);
                 
 
                 //allow player jump if they are touching the ground
@@ -112,13 +113,13 @@ var GameScreen = function(game)
         },
     
         //move the player
-        playerMove: function(player, angle)
+        playerMove: function(player, angle, multiplier)
         {
             var speed = player.runSpeed;
             
             player.animations.play('left');
-            player.body.force.x += Math.cos(angle + 90) * speed;
-            player.body.force.y += Math.sin(angle + 90) * speed;
+            player.body.force.x += Math.cos(angle + 90) * (speed * multiplier);
+            player.body.force.y += Math.sin(angle + 90) * (speed * multiplier);
 
             /*if(player.body.angularVelocity < 0)
             {
@@ -274,7 +275,9 @@ var GameScreen = function(game)
                     currentPlanet.anchor.setTo(0.5, 0.5);  
                     currentPlanet.body.setCircle(92 * planet.scale); 
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
+                    currentPlanet.friction = planet.friction;
                     currentPlanet.tint = Math.random() * 0xffffff;
+                    //currentPlanet.tint = planet.tint;
                     if(i == 0){
                          //This is where we should put the player based on the first planet
                         this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
