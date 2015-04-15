@@ -5,6 +5,7 @@ RoundOverScreen.prototype = {
         console.log("RoundOver Init");
         var numStarsCollected = 0;
         var statusText = undefined;
+        var stars;
     },
 
     preload: function(){
@@ -36,6 +37,32 @@ RoundOverScreen.prototype = {
         var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
         quitButton.anchor.setTo(0.5, 0.5);
         */
+        /*
+        if(this.numStarsCollected > 0) {
+            for(var i = 0; i < this.numStarsCollected; i++){
+                this.stars.create((game.world.height/2)+(i*60), 300, 'star');
+                this.stars[i].anchor.setTo(0.5, 0.5);
+            }
+            for(var k = 0; k < 3 - this.numStarsCollected; k++){
+                this.stars.create((game.world.height/2)+(i*60) + (this.numStarsCollected*60), 300, 'darkstar');
+                this.stars[k].anchor.setTo(0.5, 0.5);
+            }
+        } else {
+            for(var i = 0; i < 3; i++){
+                this.stars.create((game.world.height/2)+(i*60) + (this.numStarsCollected*60), 300, 'darkstar');
+                this.stars[i].anchor.setTo(0.5, 0.5);
+            }
+        }
+        */
+        this.stars = this.game.add.group();
+        for(var i = 0; i < 3; i++){
+            var currentStar = this.stars.create(((game.world.width-188)/2)+(i*94), 255, 'bigstar');
+            if(i >= this.numStarsCollected) {
+                currentStar.tint = 0x333000;
+            } 
+            currentStar.anchor.setTo(0.5, 0.5);
+            
+        }
     },
 
     retryRound: function(){
