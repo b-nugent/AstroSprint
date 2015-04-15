@@ -1,5 +1,6 @@
 var RoundOverScreen = function(game){
 this.levelCount = 0;
+this.lastLevel = 0;
 }
     
 RoundOverScreen.prototype = {
@@ -29,12 +30,21 @@ RoundOverScreen.prototype = {
         bg.tint = 0x525252;
         var complete = this.game.add.sprite(game.world.width/2, 200, "levelcomplete");
         complete.anchor.setTo(0.5, 0.5);
-        var retryButton = this.game.add.button(150, game.world.height - 200, "retry", this.retryRound, this);
-        retryButton.anchor.setTo(0.5, 0.5);
-        var nextButton = this.game.add.button(400, game.world.height - 200, "next", this.nextRound, this);
-        nextButton.anchor.setTo(0.5, 0.5);
-        var levelSelectButton = this.game.add.button(650, game.world.height - 200, "menu", this.levelSelect, this);
-        levelSelectButton.anchor.setTo(0.5, 0.5);
+        if(this.lastLevel == this.levelCount-1)
+        {
+            var retryButton = this.game.add.button(300, game.world.height - 200, "retry", this.retryRound, this);
+            retryButton.anchor.setTo(0.5, 0.5);
+            var levelSelectButton = this.game.add.button(500, game.world.height - 200, "menu", this.levelSelect, this);
+            levelSelectButton.anchor.setTo(0.5, 0.5);
+        }
+        else{
+            var retryButton = this.game.add.button(200, game.world.height - 200, "retry", this.retryRound, this);
+            retryButton.anchor.setTo(0.5, 0.5);
+            var nextButton = this.game.add.button(400, game.world.height - 200, "next", this.nextRound, this);
+            nextButton.anchor.setTo(0.5, 0.5);
+            var levelSelectButton = this.game.add.button(600, game.world.height - 200, "menu", this.levelSelect, this);
+            levelSelectButton.anchor.setTo(0.5, 0.5);
+        }
         /*
         var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
         quitButton.anchor.setTo(0.5, 0.5);

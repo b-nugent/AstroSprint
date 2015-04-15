@@ -194,6 +194,7 @@ var GameScreen = function(game)
                             //collideWormhole(wormhole);
                             //currentState = GAME_STATE_ROUND_OVER;
                             this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
+                            this.game.state.states.RoundOver.lastLevel = this.currentLevel;
                             this.game.state.start('RoundOver');
                             this.numStarsCollected = 0;
                             break;
