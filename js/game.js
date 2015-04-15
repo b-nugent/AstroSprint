@@ -30,7 +30,7 @@ var GameScreen = function(game)
             this.game.add.sprite(0, 0, 'sky');
             this.loadLevel("level"+this.currentLevel);
             //this.loadLevel("test");
-            this.scoreText = game.add.text(16, 16, 'Stars Collected: 0', { fontSize: '24px', fill: '#FFCC00' });
+            this.scoreText = game.add.text(16, 16, 'Stars Collected: 0', { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
             this.cursors = game.input.keyboard.createCursorKeys();
             
             this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -273,6 +273,7 @@ var GameScreen = function(game)
                     currentPlanet.anchor.setTo(0.5, 0.5);  
                     currentPlanet.body.setCircle(92 * planet.scale); 
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
+                    currentPlanet.tint = Math.random() * 0xffffff;
                     if(i == 0){
                          //This is where we should put the player based on the first planet
                         this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');

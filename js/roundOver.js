@@ -22,11 +22,15 @@ RoundOverScreen.prototype = {
 
     create: function(){
         console.log("RoundOver create");
-        var retryButton = this.game.add.button(150, game.world.height - 200, "play", this.retryRound, this);
+        var bg = this.game.add.sprite(0, 0, 'sky');
+        bg.tint = 0x525252;
+        var complete = this.game.add.sprite(game.world.width/2, 200, "levelcomplete");
+        complete.anchor.setTo(0.5, 0.5);
+        var retryButton = this.game.add.button(150, game.world.height - 200, "retry", this.retryRound, this);
         retryButton.anchor.setTo(0.5, 0.5);
-        var nextButton = this.game.add.button(400, game.world.height - 200, "play", this.nextRound, this);
+        var nextButton = this.game.add.button(400, game.world.height - 200, "next", this.nextRound, this);
         nextButton.anchor.setTo(0.5, 0.5);
-        var levelSelectButton = this.game.add.button(650, game.world.height - 200, "play", this.levelSelect, this);
+        var levelSelectButton = this.game.add.button(650, game.world.height - 200, "menu", this.levelSelect, this);
         levelSelectButton.anchor.setTo(0.5, 0.5);
         /*
         var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
