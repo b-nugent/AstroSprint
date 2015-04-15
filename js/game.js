@@ -13,6 +13,12 @@ var GameScreen = function(game)
         this.offGround = false;
         this.levels = undefined;
         this.currentLevel = 0;
+        
+        this.jumpSound = undefined;
+        this.starSound = undefined;
+        this.completeSound = undefined;
+        this.buttonSound = undefined;
+        this.wormholeSound = undefined;
     }
     
     GameScreen.prototype = {
@@ -41,6 +47,11 @@ var GameScreen = function(game)
             this.player.body.onBeginContact.add(this.playerContact, this);
             this.player.body.onEndContact.add(this.playerEndContact, this);
             
+            this.jumpSound = game.add.audio('jumpSound');
+            this.starSound = game.add.audio('starSound');
+            this.completeSound = game.add.audio('completeSound');
+            
+            this.wormholeSound = game.add.audio('wormholeSound');
             
         },
         
@@ -194,8 +205,10 @@ var GameScreen = function(game)
                         case "wormhole":
                             //collideWormhole(wormhole);
                             //currentState = GAME_STATE_ROUND_OVER;
+                            this.wormholeSound.play();
                             this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
                             this.game.state.states.RoundOver.lastLevel = this.currentLevel;
+                            this.game.state.states.RoundOver.buttonSound = this.buttonSound;
                             this.game.state.start('RoundOver');
                             this.numStarsCollected = 0;
                             break;
@@ -220,6 +233,7 @@ var GameScreen = function(game)
             //removes the star from the screen
             //star.alive = false;
             star.sprite.exists = false;
+            this.starSound.play();
             this.numStarsCollected++;
             this.scoreText.text = 'Stars Collected: ' + this.numStarsCollected;
             star.destroy();
@@ -238,6 +252,7 @@ var GameScreen = function(game)
                 //console.log(game.math.radToDeg(this.currentAngle));
                 this.playerJump(this.player, this.currentAngle);
                 this.player.jumped = true;
+                this.jumpSound.play();
             }
             else
             {

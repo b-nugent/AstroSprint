@@ -2,6 +2,7 @@ var LevelScreen = function(game){
     this.levelCount = 0;
     this.buttons = undefined;
     this.titles = undefined;
+    this.buttonSound = undefined;
     this.screenText = undefined;
 }
     
@@ -51,6 +52,8 @@ LevelScreen.prototype = {
     },
 
     playGame: function(button){
+        this.buttonSound.play();
+        this.game.state.states.Game.buttonSound = this.buttonSound;
         this.game.state.states.Game.currentLevel = button.level;
         this.game.state.start("Game");
     },

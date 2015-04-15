@@ -26,6 +26,19 @@ IntroScreen.prototype = {
         this.game.load.image('level', 'assets/levelicon.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         
+        // Jump sound from: http://soundbible.com/1343-Jump.html
+        this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3');
+        // Wormhole sound from: http://soundbible.com/1639-Power-Up.html
+        this.game.load.audio('wormholeSound', 'assets/audio/wormhole_audio.mp3');
+        // Star sound from: http://soundbible.com/1744-Shooting-Star.html
+        this.game.load.audio('starSound', 'assets/audio/star_audio.mp3');
+        // Round complete sound from: http://www.freesound.org/people/Kastenfrosch/sounds/162467/
+        this.game.load.audio('completeSound', 'assets/audio/complete_audio.mp3');
+        // Button sound from: http://www.freesound.org/people/GameAudio/sounds/220206/ 
+        this.game.load.audio('buttonSound', 'assets/audio/button_audio.wav');
+        
+        this.buttonSound = undefined;
+        
         for(var i = 0; i < this.levelCount; i++){
             this.game.load.text('level' + i,'levels/level'+i+'.json');
         }
@@ -45,9 +58,12 @@ IntroScreen.prototype = {
         var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
         quitButton.anchor.setTo(0.5, 0.5);
         */
+        this.buttonSound = game.add.audio('buttonSound');
     },
 
     playGame: function(){
+        this.buttonSound.play();
+        this.game.state.states.Level.buttonSound = this.buttonSound;
         this.game.state.start("Level");
     },
     shutdown: function(){
