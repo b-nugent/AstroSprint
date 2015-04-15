@@ -6,8 +6,8 @@ var GameScreen = function(game)
         this.cursors = undefined;
         this.stars = undefined;
         this.wormholes = undefined;
-        this.totalScore = 0;
-        this.roundScore = 0;
+        //this.totalScore = 0;
+        this.numStarsCollected = 0;
         this.scoreText = undefined;
         this.offGround = false;
         this.levels = undefined;
@@ -27,7 +27,7 @@ var GameScreen = function(game)
             this.game.add.sprite(0, 0, 'sky');
             this.loadLevel("level"+this.currentLevel);
             //this.loadLevel("test");
-            
+            this.scoreText = game.add.text(16, 16, 'Stars Collected: 0', { fontSize: '24px', fill: '#FFCC00' });
             this.cursors = game.input.keyboard.createCursorKeys();
 
 
@@ -178,7 +178,9 @@ var GameScreen = function(game)
                         case "wormhole":
                             //collideWormhole(wormhole);
                             //currentState = GAME_STATE_ROUND_OVER;
+                            this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
                             this.game.state.start('RoundOver');
+                            this.numStarsCollected = 0;
                             break;
                 }
             }
@@ -200,6 +202,8 @@ var GameScreen = function(game)
             //removes the star from the screen
             //star.alive = false;
             star.sprite.exists = false;
+            this.numStarsCollected++;
+            this.scoreText.text = 'Stars Collected: ' + this.numStarsCollected;
             star.destroy();
 
             

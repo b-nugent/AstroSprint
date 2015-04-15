@@ -3,11 +3,17 @@ var RoundOverScreen = function(game){}
 RoundOverScreen.prototype = {
     init: function(){
         console.log("RoundOver Init");
+        var numStarsCollected = 0;
+        var statusText = undefined;
     },
 
     preload: function(){
         console.log("RoundOver preload");
         this.game.load.image('play', 'assets/play.png');
+        this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
+            fontSize: '32px', fill: '#FFCC00' 
+        });
+        this.statusText.anchor.setTo(0.5, 0.5);
         //this.game.load.image('retry', 'assets/retry.png');
         //this.game.load.image('next', 'assets/next.png');
         //this.game.load.image('levels', 'assets/levelSelect.png');
@@ -29,17 +35,16 @@ RoundOverScreen.prototype = {
     },
 
     retryRound: function(){
+        this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
     nextRound: function(){
         this.game.state.states.Game.currentLevel++;
+        this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
     levelSelect: function(){
+        this.numStarsCollected = 0;
         this.game.state.start("Level");
-    },
-    shutdown: function(){
-        console.log("intro state left");
-        
     }
 }
