@@ -65,7 +65,7 @@ var GameScreen = function(game)
             if(this.player.grounded)
             {
                 //move player
-                this.playerMove(this.player, this.currentAngle, this.player.targetPlanet.friction);
+                this.playerMove(this.player, this.currentAngle, 1/this.player.targetPlanet.friction);
                 //this.playerMove(this.player, this.currentAngle, 1.0);
                 
 
