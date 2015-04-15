@@ -3,6 +3,7 @@ var LevelScreen = function(game){
     this.buttons = undefined;
     this.titles = undefined;
     this.buttonSound = undefined;
+    this.screenText = undefined;
 }
     
 LevelScreen.prototype = {
@@ -19,12 +20,25 @@ LevelScreen.prototype = {
         var bg = this.game.add.sprite(0, 0, 'sky');
         bg.tint = 0x525252;
         
+        this.screenText = game.add.text(game.world.width/2, 100, 'Level Select', { font: "900 'Orbitron', sans-serif", fontSize: '45px', fill: '#e2fbb6' });
+        this.screenText.anchor.setTo(0.5, 0.5);
+        
         this.buttons = game.add.group();
         this.titles = game.add.group();
         
         for(var i = 0; i < this.levelCount; i++)
         {
-            var button = this.game.add.button(200 + (100 * i), game.world.height/2, "level", this.playGame, this);
+            var y = 200;
+            
+            if(i >= 5 && i < 10 )
+            {
+                y += 100;
+            }
+            else if (i >= 10)
+            {
+                y += 200;
+            }
+            var button = this.game.add.button(200 + (100 * (i % 5)), y, "level", this.playGame, this);
             button.level = i;
             button.anchor.setTo(0.5, 0.5);
             
