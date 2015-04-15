@@ -1,4 +1,6 @@
-var RoundOverScreen = function(game){}
+var RoundOverScreen = function(game){
+this.levelCount = 0;
+}
     
 RoundOverScreen.prototype = {
     init: function(){

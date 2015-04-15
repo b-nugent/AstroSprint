@@ -1,4 +1,8 @@
-var LevelScreen = function(game){}
+var LevelScreen = function(game){
+    this.levelCount = 0;
+    this.buttons = undefined;
+    this.titles = undefined;
+}
     
 LevelScreen.prototype = {
     init: function(){
@@ -13,9 +17,22 @@ LevelScreen.prototype = {
         console.log("level create");
         var bg = this.game.add.sprite(0, 0, 'sky');
         bg.tint = 0x525252;
-        var level0Button = this.game.add.button(game.world.width/2, game.world.height/2, "play", this.playGame, this);
-        level0Button.level = 0;
-        level0Button.anchor.setTo(0.5, 0.5);
+        
+        this.buttons = game.add.group();
+        this.titles = game.add.group();
+        
+        for(var i = 0; i < this.levelCount; i++)
+        {
+            var button = this.game.add.button(200 + (100 * i), game.world.height/2, "level", this.playGame, this);
+            button.level = i;
+            button.anchor.setTo(0.5, 0.5);
+            
+            var title = game.add.text(button.x + 0.5, button.y + 2, '' + button.level, { font: "900 'Orbitron', sans-serif", fontSize: '32px', fill: '#e2fbb6' });
+            title.anchor.setTo(0.5, 0.5);
+
+            this.buttons.add(button);
+            this.titles.add(title);
+        }
 
     },
 

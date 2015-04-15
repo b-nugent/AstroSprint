@@ -301,6 +301,7 @@ var GameScreen = function(game)
 				    //do all that star physics stuff
                     game.physics.p2.enable(currentStar, false);
                     currentStar.anchor.setTo(0.5, 0.5);
+                    currentStar.body.static = false;
                     
 				}
                 

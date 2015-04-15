@@ -1,4 +1,7 @@
-var IntroScreen = function(game){}
+var IntroScreen = function(game){
+    this.loadText = undefined;
+    this.levelCount = 0;
+}
     
 IntroScreen.prototype = {
     init: function(){
@@ -19,8 +22,12 @@ IntroScreen.prototype = {
         this.game.load.image('levelcomplete', 'assets/levelcomplete.png');
         this.game.load.image('bigstar', 'assets/bigstar.png');
         this.game.load.image('logo', 'assets/logo.png');
+        this.game.load.image('level', 'assets/levelicon.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-        this.game.load.text('level0','levels/level0.json');
+        
+        for(var i = 0; i < this.levelCount; i++){
+            this.game.load.text('level' + i,'levels/level'+i+'.json');
+        }
     },
 
     create: function(){
@@ -31,6 +38,8 @@ IntroScreen.prototype = {
         logo.anchor.setTo(0.5,0.5);
         var playButton = this.game.add.button(game.world.width/2, game.world.height - 200, "play", this.playGame, this);
         playButton.anchor.setTo(0.5, 0.5);
+        
+        this.loadText = game.add.text(-100, -100, 'If you can read this, hi', { font: "900 'Orbitron', sans-serif", fontSize: '12px', fill: '#e2fbb6' });
         /*
         var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
         quitButton.anchor.setTo(0.5, 0.5);
