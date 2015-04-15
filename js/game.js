@@ -178,7 +178,7 @@ var GameScreen = function(game)
                         case "wormhole":
                             //collideWormhole(wormhole);
                             //currentState = GAME_STATE_ROUND_OVER;
-                            this.game.state.start('Level');
+                            this.game.state.start('RoundOver');
                             break;
                 }
             }
