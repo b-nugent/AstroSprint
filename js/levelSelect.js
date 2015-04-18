@@ -42,11 +42,27 @@ LevelScreen.prototype = {
             button.level = i;
             button.anchor.setTo(0.5, 0.5);
             
-            var title = game.add.text(button.x + 0.5, button.y + 2, '' + (button.level + 1), { font: "900 'Orbitron', sans-serif", fontSize: '32px', fill: '#e2fbb6' });
+            var title = game.add.text(button.x + 0.5, button.y - 2, '' + (button.level + 1), { font: "900 'Orbitron', sans-serif", fontSize: '32px', fill: '#e2fbb6' });
             title.anchor.setTo(0.5, 0.5);
 
             this.buttons.add(button);
             this.titles.add(title);
+            
+            var numStars = localStorage.getItem('level'+i+'_starCount');
+                                                
+            
+            for( var j = 0; j < 3; j++)
+            {
+                var spacing = 18;
+                var scale = 0.65;
+                var currentStar = this.buttons.create((button.x - spacing)+(j*spacing), (button.y + 20), 'star');
+                if(j >= numStars)
+                {
+                    currentStar.tint = 0x333000;
+                }
+                currentStar.anchor.setTo(0.5, 0.5);
+                currentStar.scale = new Phaser.Point(scale,scale);
+            }
         }
 
     },

@@ -84,8 +84,8 @@ var GameScreen = function(game)
 
 
             //calculate gravity
-            var strength = 500;
-            this.applyGravity(this.player, this.currentAngle, strength);
+            
+            this.applyGravity(this.player, this.currentAngle);
 
             //allow the player to fall if not grounded
             /*if(spaceJustDown && this.player.jumped)
@@ -118,7 +118,8 @@ var GameScreen = function(game)
         },
         
         //apply gravity to the center of a planet
-        applyGravity: function(player, angle, strength){
+        applyGravity: function(player, angle){
+            var strength = 250 + (250 * player.targetPlanet.mass);
             player.body.force.x += Math.cos(angle) * strength;
             player.body.force.y += Math.sin(angle) * strength;
         },
@@ -290,6 +291,7 @@ var GameScreen = function(game)
                     currentPlanet.anchor.setTo(0.5, 0.5);  
                     currentPlanet.body.setCircle(92 * planet.scale); 
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
+                    currentPlanet.mass = planet.scale;
                     currentPlanet.friction = planet.friction;
                     currentPlanet.tint = Math.random() * 0xffffff;
                     //currentPlanet.tint = planet.tint;

@@ -39,6 +39,14 @@ IntroScreen.prototype = {
         
         this.buttonSound = undefined;
         
+        if(!localStorage.getItem('accessed'))
+        {
+            this.populateLevelData();
+        }
+        else{
+            debugger;
+        }
+        
         for(var i = 0; i < this.levelCount; i++){
             this.game.load.text('level' + i,'levels/level'+i+'.json');
         }
@@ -59,6 +67,8 @@ IntroScreen.prototype = {
         quitButton.anchor.setTo(0.5, 0.5);
         */
         this.buttonSound = game.add.audio('buttonSound');
+        
+        
     },
 
     playGame: function(){
@@ -69,5 +79,14 @@ IntroScreen.prototype = {
     shutdown: function(){
         console.log("intro state left");
         
+    },
+    
+    populateLevelData: function(){
+        for(var i = 0; i < this.levelCount; i++)
+        {
+            localStorage.setItem('level'+i+'_starCount', 0);
+        }
+        
+        localStorage.setItem('accessed', true);
     }
 }

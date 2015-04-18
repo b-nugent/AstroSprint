@@ -76,6 +76,14 @@ RoundOverScreen.prototype = {
             currentStar.anchor.setTo(0.5, 0.5);
             
         }
+        
+        
+        //local storage check
+        var localStarsCollected = localStorage.getItem('level'+this.lastLevel+'_starCount');
+        if(this.numStarsCollected > localStarsCollected)
+        {
+            localStorage.setItem('level'+this.lastLevel+'_starCount', this.numStarsCollected);
+        }
     },
 
     retryRound: function(){
