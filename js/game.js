@@ -293,8 +293,8 @@ var GameScreen = function(game)
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
                     currentPlanet.mass = planet.scale;
                     currentPlanet.friction = planet.friction;
-                    currentPlanet.tint = Math.random() * 0xffffff;
-                    //currentPlanet.tint = planet.tint;
+                    //currentPlanet.tint = Math.random() * 0xffffff;
+                    currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
                     if(i == 0){
                          //This is where we should put the player based on the first planet
                         this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
@@ -333,9 +333,9 @@ var GameScreen = function(game)
 					var wormhole = wormholes[i];
                     var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
 				    //do all that wormhole physics stuff
-                    game.physics.p2.enable(currentWormhole, false);
+                    game.physics.p2.enable(currentWormhole, true);
                     currentWormhole.body.static = true;
-                    currentWormhole.body.setCircle(45); 
+                    currentWormhole.body.setCircle(22); 
                     currentWormhole.anchor.setTo(0.5, 0.5);
                     
 				}
