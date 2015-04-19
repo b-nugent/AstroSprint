@@ -65,8 +65,8 @@ var GameScreen = function(game)
             if(this.player.grounded)
             {
                 //move player
-                this.playerMove(this.player, this.currentAngle, 1/this.player.targetPlanet.friction);
-                //this.playerMove(this.player, this.currentAngle, 1.0);
+                //this.playerMove(this.player, this.currentAngle, 1/this.player.targetPlanet.friction); //friction movement
+                this.playerMove(this.player, this.currentAngle, 1.0);
                 
 
                 //allow player jump if they are touching the ground
@@ -293,8 +293,8 @@ var GameScreen = function(game)
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
                     currentPlanet.mass = planet.scale;
                     currentPlanet.friction = planet.friction;
-                    //currentPlanet.tint = Math.random() * 0xffffff;
-                    currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
+                    currentPlanet.tint = Math.random() * 0xffffff;
+                    //currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
                     if(i == 0){
                          //This is where we should put the player based on the first planet
                         this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
@@ -333,7 +333,7 @@ var GameScreen = function(game)
 					var wormhole = wormholes[i];
                     var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
 				    //do all that wormhole physics stuff
-                    game.physics.p2.enable(currentWormhole, true);
+                    game.physics.p2.enable(currentWormhole, false);
                     currentWormhole.body.static = true;
                     currentWormhole.body.setCircle(22); 
                     currentWormhole.anchor.setTo(0.5, 0.5);
