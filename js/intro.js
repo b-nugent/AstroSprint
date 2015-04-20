@@ -26,6 +26,8 @@ IntroScreen.prototype = {
         this.game.load.image('level', 'assets/levelicon.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         
+        // Journey mode background music from: https://www.freeplaymusic.com
+        this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
         // Jump sound from: http://soundbible.com/1343-Jump.html
         this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3');
         // Wormhole sound from: http://soundbible.com/1639-Power-Up.html
@@ -37,6 +39,7 @@ IntroScreen.prototype = {
         // Button sound from: http://www.freesound.org/people/GameAudio/sounds/220206/ 
         this.game.load.audio('buttonSound', 'assets/audio/button_audio.wav');
         
+        this.backgroundMusic = undefined;
         this.buttonSound = undefined;
         
         if(!localStorage.getItem('accessed'))
@@ -58,6 +61,11 @@ IntroScreen.prototype = {
         bg.tint = 0x525252;
         var logo = this.game.add.sprite(game.world.width/2, 200, "logo");
         logo.anchor.setTo(0.5,0.5);
+        
+        // Loading the background music.
+        this.backgroundMusic = game.add.audio('backgroundMusic', 1, true);
+        this.backgroundMusic.play('', 0, 1, true);
+        
         var playButton = this.game.add.button(game.world.width/2, game.world.height - 200, "play", this.playGame, this);
         playButton.anchor.setTo(0.5, 0.5);
         
