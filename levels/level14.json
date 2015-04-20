@@ -17,14 +17,14 @@
 			
 		],
 		"wormholes":[
-			{"x":670, "y":300, "scale":0.5},
-			{"x":130, "y":300, "scale":0.5},
-			{"x":400, "y":30, "scale":0.5},
-			{"x":400, "y":570, "scale":0.5},
-			{"x":490, "y":390, "scale":0.4, "friction":1.0},
-			{"x":490, "y":210, "scale":0.4, "friction":1.0},
-			{"x":310, "y":390, "scale":0.4, "friction":1.0},
-			{"x":310, "y":210, "scale":0.4, "friction":1.0}
+			{"x":670, "y":300, "scale":0.5, "renderAngle":230.0},
+			{"x":130, "y":300, "scale":0.5, "renderAngle":80.0},
+			{"x":400, "y":30, "scale":0.5, "renderAngle":11.0},
+			{"x":400, "y":570, "scale":0.5, "renderAngle":97.0},
+			{"x":490, "y":390, "scale":0.4, "renderAngle":150.0},
+			{"x":490, "y":210, "scale":0.4, "renderAngle":135.0},
+			{"x":310, "y":390, "scale":0.4, "renderAngle":1.0},
+			{"x":310, "y":210, "scale":0.4, "renderAngle":215.0}
 		]
 	}
 }

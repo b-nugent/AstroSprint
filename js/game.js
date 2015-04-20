@@ -75,6 +75,15 @@ var GameScreen = function(game)
 
             //calculate gravity
             this.applyGravity(this.player, this.currentAngle);
+            
+            //rotate the wormholes
+            for(var i = 0; i < this.wormholes.children.length; i++)
+            {
+                var w = this.wormholes.children[i];
+                w.renderAngle+= 0.5;
+                w.body.angle = w.renderAngle;
+            }
+            
 
            
         },
@@ -322,7 +331,8 @@ var GameScreen = function(game)
                     currentWormhole.body.static = true;
                     currentWormhole.anchor.setTo(0.5, 0.5);
                     currentWormhole.body.setCircle(22 * wormhole.scale);
-                    currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);              
+                    currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);
+                    currentWormhole.renderAngle = wormhole.renderAngle;
 				}
             
                 this.currentAngle = 0;

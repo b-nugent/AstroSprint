@@ -17,9 +17,9 @@
 			{"x":175, "y":395, "scale":0.25, "friction":1.0}			
 		],
 		"wormholes":[
-			{"x":400, "y":95, "scale":0.4},
-			{"x":225, "y":460, "scale":0.4},
-			{"x":575, "y":460, "scale":0.4}
+			{"x":400, "y":95, "scale":0.4, "renderAngle":0.0},
+			{"x":225, "y":460, "scale":0.4, "renderAngle":30.0},
+			{"x":575, "y":460, "scale":0.4, "renderAngle":100.0}
 		]
 	}
 }

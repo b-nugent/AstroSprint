@@ -13,7 +13,7 @@
 			
 		],
 		"wormholes":[
-			{"x":400, "y":30, "scale":0.5}
+			{"x":400, "y":30, "scale":0.5, "renderAngle":60.0}
 		]
 	}
 }
