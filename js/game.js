@@ -335,9 +335,9 @@ var GameScreen = function(game)
 				    //do all that wormhole physics stuff
                     game.physics.p2.enable(currentWormhole, false);
                     currentWormhole.body.static = true;
-                    currentWormhole.body.setCircle(22); 
                     currentWormhole.anchor.setTo(0.5, 0.5);
-                    
+                    currentWormhole.body.setCircle(22 * wormhole.scale);
+                    currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);              
 				}
             
                 this.currentAngle = 0;
