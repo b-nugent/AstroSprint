@@ -67,16 +67,6 @@ var GameScreen = function(game)
                 //move player
                 //this.playerMove(this.player, this.currentAngle, 1/this.player.targetPlanet.friction); //friction movement
                 this.playerMove(this.player, this.currentAngle, 1.0);
-                
-
-                //allow player jump if they are touching the ground
-                /*if(!this.player.jumped && spaceJustDown)
-                {
-                    this.playerJump(this.player, this.currentAngle);
-                    //this.player.grounded = false;
-                     this.player.jumped = true;
-                }*/
-                //this.player.grounded = true;
             }
             if(this.player.jumped){
                 this.calculateTargetPlanet(this.player, this.planets);
@@ -84,14 +74,9 @@ var GameScreen = function(game)
 
 
             //calculate gravity
-            
             this.applyGravity(this.player, this.currentAngle);
 
-            //allow the player to fall if not grounded
-            /*if(spaceJustDown && this.player.jumped)
-            {
-                this.playerFall(this.player, angle);
-            } */  
+           
         },
         
         //calculate the planet that the player should be attracted to
