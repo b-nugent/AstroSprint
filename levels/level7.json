@@ -5,15 +5,15 @@
 			{"x":600, "y":440}
 		],
 		"planets":[
-			{"x":400, "y":495, "scale":0.4, "friction":1.0},
-			{"x":400, "y":165, "scale":0.4, "friction":1.0}, 
+			{"x":400, "y":495, "scale":0.5, "friction":1.0},
+			{"x":400, "y":165, "scale":0.5, "friction":1.0}, 
 			 
-			{"x":225, "y":410, "scale":0.4, "friction":1.0},
-			{"x":575, "y":260, "scale":0.4, "friction":1.0} 
+			{"x":225, "y":410, "scale":0.5, "friction":1.0},
+			{"x":575, "y":260, "scale":0.5, "friction":1.0} 
 			
 		],
 		"wormholes":[
-			{"x":400, "y":30, "scale":0.5, "renderAngle":60.0}
+			{"x":400, "y":30, "scale":1.0, "renderAngle":60.0}
 		]
 	}
 }
