@@ -19,6 +19,9 @@ var GameScreen = function(game)
         this.completeSound = undefined;
         this.buttonSound = undefined;
         this.wormholeSound = undefined;
+        this.blackholeSound = undefined;
+        this.oxygenSound = undefined;
+        this.breathSound = undefined;
     }
     
     GameScreen.prototype = {
@@ -52,6 +55,9 @@ var GameScreen = function(game)
             this.completeSound = game.add.audio('completeSound');
             
             this.wormholeSound = game.add.audio('wormholeSound');
+            this.blackholeSound = game.add.audio('blackholeSound');
+            this.oxygenSound = game.add.audio('oxygenSound');
+            this.breathSound = game.add.audio('breathSound');
             
         },
         
@@ -199,13 +205,20 @@ var GameScreen = function(game)
                             break;
                         case "wormhole":
                             //collideWormhole(wormhole);
-                            //currentState = GAME_STATE_ROUND_OVER;
                             this.wormholeSound.play();
                             this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
                             this.game.state.states.RoundOver.lastLevel = this.currentLevel;
                             this.game.state.states.RoundOver.buttonSound = this.buttonSound;
                             this.game.state.start('RoundOver');
                             this.numStarsCollected = 0;
+                            break;
+                        case "enemy":
+                            break;
+                        case "blackhole":
+                            this.teleportPlayer(body);
+                            break;
+                        case "oxygenTank":
+                            this.collectOxygen(body);
                             break;
                 }
             }
@@ -233,6 +246,21 @@ var GameScreen = function(game)
             this.scoreText.text = 'Stars Collected: ' + this.numStarsCollected;
             star.destroy();
         },
+        
+        /*
+        collectOxygen: function(oxygenTank) {
+            // Removes the oxygen tank from the screen
+            oxygenTank.sprite.exists = false;
+            this.oxygenSound.play();
+            // add time to the oxygen timer, increment TBD
+            // this.timer += 5;
+            oxygenTank.destroy();
+        },
+        
+        teleportPlayer: function(blackhole) {
+            // Move player's current position to a random blackhole's position, other than the current one.
+        },
+        */
 
 
         setGrounded: function()
@@ -273,7 +301,7 @@ var GameScreen = function(game)
  				
  				var level = myJSON.level;
                 
-                //Planets
+                // Planets
                 var planets = level.planets;
                 this.planets = game.add.group();
 				for( var i = 0; i < planets.length; i++){
@@ -307,7 +335,7 @@ var GameScreen = function(game)
                     }
 				}
                 
-                //Stars
+                // Stars
 				var stars = level.stars;
                 this.stars = game.add.group();
 				for( var i = 0; i < stars.length; i++){
@@ -316,11 +344,10 @@ var GameScreen = function(game)
 				    //do all that star physics stuff
                     game.physics.p2.enable(currentStar, false);
                     currentStar.anchor.setTo(0.5, 0.5);
-                    currentStar.body.static = false;
-                    
+                    currentStar.body.static = false;  
 				}
                 
-                //Wormhole
+                // Wormholes
                 var wormholes = level.wormholes;
                 this.wormholes = game.add.group();
 				for( var i = 0; i < wormholes.length; i++){
@@ -334,6 +361,52 @@ var GameScreen = function(game)
                     currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);
                     currentWormhole.renderAngle = wormhole.renderAngle;
 				}
+                
+                /* Project 3 Stuff
+                
+                // Oxygen Tanks
+				var oxygenTanks = level.oxygenTanks;
+                this.oxygenTanks = game.add.group();
+				for( var i = 0; i < oxygenTanks.length; i++){
+					var oxygenTank = oxygenTanks[i];
+                    var currentTank = this.oxygenTanks.create(oxygenTank.x, oxygenTank.y, 'oxygenTank');
+				    // Sets up the oxygen tank physics
+                    game.physics.p2.enable(currentTank, false);
+                    currentTank.anchor.setTo(0.5, 0.5);
+                    currentTank.body.static = false;  
+				}
+                
+                // Blackholes
+                var blackholes = level.blackholes;
+                this.blackholes = game.add.group();
+				for( var i = 0; i < blackholes.length; i++){
+					var blackhole = blackholes[i];
+                    var currentBlackhole = this.blackholes.create(blackhole.x, blackhole.y, 'blackhole');
+				    // Sets up the blackhole physics
+                    game.physics.p2.enable(currentBlackhole, false);
+                    currentBlackhole.body.static = true;
+                    currentBlackhole.anchor.setTo(0.5, 0.5);
+                    currentBlackhole.body.setCircle(22 * blackhole.scale);
+                    currentBlackhole.scale = new Phaser.Point(blackhole.scale, blackhole.scale);
+                    currentBlackhole.renderAngle = blackhole.renderAngle;
+				}
+            
+                // Asteroids 
+                var asteroids = level.asteroids;
+                this.asteroids = game.add.group();
+				for( var i = 0; i < asteroids.length; i++){
+					var asteroid = asteroids[i];
+                    var currentAsteroid = this.asteroids.create(asteroid.x, asteroid.y, 'asteroid');
+				    // Sets up the asteroid physics
+                    game.physics.p2.enable(currentAsteroid, false);
+                    currentAsteroid.body.static = true;
+                    currentAsteroid.anchor.setTo(0.5, 0.5);
+                    currentAsteroid.body.setCircle(11 * asteroid.scale);
+                    currentAsteroid.scale = new Phaser.Point(asteroid.scale, asteroid.scale);
+                    currentAsteroid.renderAngle = asteroid.renderAngle;
+				}
+            
+                */
             
                 this.currentAngle = 0;
 			}

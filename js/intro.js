@@ -38,6 +38,12 @@ IntroScreen.prototype = {
         this.game.load.audio('completeSound', 'assets/audio/complete_audio.mp3');
         // Button sound from: http://www.freesound.org/people/GameAudio/sounds/220206/ 
         this.game.load.audio('buttonSound', 'assets/audio/button_audio.wav');
+        // Blackhole sound from: http://www.freesound.org/people/Andromadax24/sounds/178349/
+        this.game.load.audio('blackholeSound', 'assets/audio/blackhole_audio.wav');
+        // Oxygen sound from: http://www.freesound.org/people/ThompsonMan/sounds/237245/
+        this.game.load.audio('oxygenSound', 'assets/audio/oxygen_audio.wav');
+        // Breath sound from: http://www.freesound.org/people/doctorvortex/sounds/190140/
+        this.game.load.audio('breathSound', 'assets/audio/breath_audio.wav');
         
         this.backgroundMusic = undefined;
         this.buttonSound = undefined;
