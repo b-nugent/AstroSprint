@@ -7,6 +7,8 @@ RoundOverScreen.prototype = {
     init: function(){
         console.log("RoundOver Init");
         var numStarsCollected = 0;
+        var maxStarsCollected = 0;
+        var scoreStars = 0;
         var statusText = undefined;
         var stars;
         var buttonSound = undefined;
@@ -68,11 +70,26 @@ RoundOverScreen.prototype = {
         }
         */
         this.stars = this.game.add.group();
+        var scorePercent = this.numStarsCollected/this.maxStarsCollected;
+        console.log(scorePercent);
         for(var i = 0; i < 3; i++){
             var currentStar = this.stars.create(((game.world.width-188)/2)+(i*94), 255, 'bigstar');
-            if(i >= this.numStarsCollected) {
-                currentStar.tint = 0x333000;
-            } 
+            switch(i){
+                case 0:
+                    if(scorePercent < .333)
+                        currentStar.tint = 0x333000;
+                    break;
+                case 1:
+                    if(scorePercent < .666)
+                        currentStar.tint = 0x333000;
+                    break;
+                case 2:
+                    if(scorePercent < 1)
+                        currentStar.tint = 0x333000;
+                    break;
+                default:
+                    break;
+            }
             currentStar.anchor.setTo(0.5, 0.5);
             
         }

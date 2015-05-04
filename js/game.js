@@ -207,6 +207,7 @@ var GameScreen = function(game)
                             //collideWormhole(wormhole);
                             this.wormholeSound.play();
                             this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
+                            this.game.state.states.RoundOver.maxStarsCollected = this.stars.length;
                             this.game.state.states.RoundOver.lastLevel = this.currentLevel;
                             this.game.state.states.RoundOver.buttonSound = this.buttonSound;
                             this.game.state.start('RoundOver');
