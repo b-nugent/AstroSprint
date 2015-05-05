@@ -26,6 +26,11 @@ IntroScreen.prototype = {
         this.game.load.image('level', 'assets/levelicon.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         
+        this.game.load.image('enemy', 'assets/enemy.png');
+        this.game.load.image('asteroid', 'assets/asteroid.png');
+        this.game.load.image('oxygen', 'assets/02tank.png');
+        this.game.load.image('blackhole', 'assets/blackhole.png');
+        
         // Journey mode background music from: https://www.freeplaymusic.com
         this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
         // Jump sound from: http://soundbible.com/1343-Jump.html

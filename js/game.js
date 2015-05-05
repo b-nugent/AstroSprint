@@ -99,12 +99,14 @@ var GameScreen = function(game)
         {
             var targetMagnitude = new Phaser.Point(player.targetPlanet.y - player.y, player.targetPlanet.x - player.x).getMagnitude();
             var closestPlanet = undefined;
+            targetMagnitude -= player.targetPlanet.radius;
 
             for(var i = 0; i < planets.children.length; i++)
             {
                 var p = planets.children[i];
                 var testMagnitude = new Phaser.Point(p.y - player.y, p.x - player.x).getMagnitude();
-
+                testMagnitude -= p.radius;
+                
                 if(testMagnitude < targetMagnitude)
                 {
                     closestPlanet = p;
@@ -315,6 +317,7 @@ var GameScreen = function(game)
                     currentPlanet.body.setCircle(92 * planet.scale); 
                     currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
                     currentPlanet.mass = planet.scale;
+                    currentPlanet.radius = 110 * planet.scale;
                     currentPlanet.friction = planet.friction;
                     currentPlanet.tint = Math.random() * 0xffffff;
                     //currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
