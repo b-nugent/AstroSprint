@@ -26,7 +26,7 @@ IntroScreen.prototype = {
         this.game.load.image('level', 'assets/levelicon.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         
-        this.game.load.image('enemy', 'assets/enemy.png');
+        this.game.load.spritesheet('enemy', 'assets/enemy.png', 33.5, 39, 4);
         this.game.load.image('asteroid', 'assets/asteroid.png');
         this.game.load.image('oxygen', 'assets/o2tank.png');
         this.game.load.image('blackhole', 'assets/teleporter.png');
@@ -34,7 +34,7 @@ IntroScreen.prototype = {
         // Journey mode background music from: https://www.freeplaymusic.com
         this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
         // Jump sound from: http://soundbible.com/1343-Jump.html
-        this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3');
+        this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3', 0.25);
         // Wormhole sound from: http://soundbible.com/1639-Power-Up.html
         this.game.load.audio('wormholeSound', 'assets/audio/wormhole_audio.mp3');
         // Star sound from: http://soundbible.com/1744-Shooting-Star.html

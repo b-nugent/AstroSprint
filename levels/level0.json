@@ -18,14 +18,13 @@
 			{"x":450, "y":500, "scale":0.50, "renderAngle":90.0}
 		],
 		"asteroids":[
-			{"x":510, "y":380, "scale":0.25, "renderAngle":0.0},
 			{"x":530, "y":360, "scale":0.25, "renderAngle":0.0},
 			{"x":550, "y":340, "scale":0.25, "renderAngle":0.0},
 			{"x":570, "y":320, "scale":0.25, "renderAngle":0.0}
 			
 		],
 		"enemies":[
-			{"x":125, "y":250, "scale":0.25, "planet":1}
+			{"x":125, "y":250, "scale":1.0, "planet":1}
 		]
 	}
 }

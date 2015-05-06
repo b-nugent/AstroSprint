@@ -154,8 +154,7 @@ var GameScreen = function(game)
         
         enemyMove: function(enemy, angle) {
             var speed = enemy.runSpeed;
-            
-            //enemy.animations.play('right');
+            enemy.animations.play('right');
             enemy.body.force.x += Math.cos(angle + 90) * speed;
             enemy.body.force.y += Math.sin(angle + 90) * speed;
         },
@@ -276,6 +275,12 @@ var GameScreen = function(game)
                             this.player.grounded = false;
                             break;
                         case "blackhole":
+                            this.player.body.velocity.x *= 0.1;
+                            this.player.body.velocity.y *= 0.1;
+                            // Resets the player's forces.
+                            this.playerForceReset(this.player);
+                            // Looks for the closest planet for the player to land on.
+                            this.calculateTargetPlanet(this.player, this.planets);
                             this.player.teleporting = false;
                             break;
                 }
@@ -315,13 +320,8 @@ var GameScreen = function(game)
             // Chooses a random number between 0 and the total amount of blackholes (minus 1).
             var random = Math.floor(Math.random() * teleportLocation.length);
 
-
             // The player is reset and positioned at a random blackhole location.
             this.player.reset(this.blackholes.children[teleportLocation[random]].x, this.blackholes.children[teleportLocation[random]].y);
-            // Resets the player's forces.
-            this.playerForceReset(this.player);
-            // Looks for the closest planet for the player to land on.
-            this.calculateTargetPlanet(this.player, this.planets);
         },
         
 
@@ -449,10 +449,11 @@ var GameScreen = function(game)
                 var enemy = enemies[i];
                 //var currentEnemy = this.enemies.create(enemy.x, enemy.y, 'enemy');
                 var currentEnemy = game.add.sprite(enemy.x, enemy.y, 'enemy');
+                currentEnemy.animations.add('right', [0,1,2,3], 10, true);
                 // Sets up the enemy physics
                 game.physics.p2.enable(currentEnemy, false);
                 currentEnemy.scale = new Phaser.Point(enemy.scale, enemy.scale);
-                currentEnemy.body.setCircle(102 * enemy.scale);
+                //currentEnemy.body.setCircle(102 * enemy.scale);
                 currentEnemy.body.collideWorldBounds = true;
                 currentEnemy.body.velocity.x = 1;
                 currentEnemy.anchor.setTo(0.5, 0.5);
