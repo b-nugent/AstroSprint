@@ -104,7 +104,7 @@ var GameScreen = function(game)
             // Rotate the wormholes.
             this.rotate(this.wormholes, 0.5);
             // Rotate the blackholes.
-            this.rotate(this.blackholes, 2.0);
+            this.rotate(this.blackholes, 1.5);
             
 
            
