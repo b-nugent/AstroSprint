@@ -28,8 +28,8 @@ IntroScreen.prototype = {
         
         this.game.load.image('enemy', 'assets/enemy.png');
         this.game.load.image('asteroid', 'assets/asteroid.png');
-        this.game.load.image('oxygen', 'assets/02tank.png');
-        this.game.load.image('blackhole', 'assets/blackhole.png');
+        this.game.load.image('oxygen', 'assets/o2tank.png');
+        this.game.load.image('blackhole', 'assets/teleporter.png');
         
         // Journey mode background music from: https://www.freeplaymusic.com
         this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
@@ -58,7 +58,7 @@ IntroScreen.prototype = {
             this.populateLevelData();
         }
         else{
-            debugger;
+            //debugger;
         }
         
         for(var i = 0; i < this.levelCount; i++){

@@ -7,6 +7,14 @@ var GameScreen = function(game)
         this.spaceKey = undefined;
         this.stars = undefined;
         this.wormholes = undefined;
+        
+        this.blackholes = undefined;
+        this.enemies = undefined;
+        this.asteroids = undefined;
+        
+        var numEnemies = undefined;
+        var numPlanets = undefined;
+        
         //this.totalScore = 0;
         this.numStarsCollected = 0;
         this.scoreText = undefined;
@@ -33,7 +41,10 @@ var GameScreen = function(game)
         
         create: function(){
             console.log("Game Screen Create");
+
             
+            this.numEnemies = [];
+            this.numPlanets = [];
             
             //this.loadLevel(this.levels[this.currentLevel]);
             this.game.add.sprite(0, 0, 'sky');
@@ -62,12 +73,20 @@ var GameScreen = function(game)
         },
         
         update: function(){
-            //this.playerForceReset(this.player);
+            // Move all of the enemies
+            for(var i = 0; i < this.numEnemies.length; i++) {
+                this.currentAngle = Math.atan2(this.numEnemies[i].planet.y - this.numEnemies[i].y, this.numEnemies[i].planet.x - this.numEnemies[i].x);
+                this.numEnemies[i].body.rotation = this.currentAngle + game.math.degToRad(90) * -1;
+                this.enemyMove(this.numEnemies[i], this.currentAngle, 1.0);
+                this.applyEnemyGravity(this.numEnemies[0], this.currentAngle);
+                
+            }
             
-            //calculate the angle between the player and the planet
+            // Calculate the angle between the player and the planet
             this.currentAngle = Math.atan2(this.player.targetPlanet.y - this.player.y, this.player.targetPlanet.x - this.player.x);
             this.player.body.rotation = this.currentAngle + game.math.degToRad(90) * -1;
-
+            
+            // Check if the player is on the ground or in the air.
             if(this.player.grounded)
             {
                 //move player
@@ -81,6 +100,7 @@ var GameScreen = function(game)
 
             //calculate gravity
             this.applyGravity(this.player, this.currentAngle);
+            
             
             //rotate the wormholes
             for(var i = 0; i < this.wormholes.children.length; i++)
@@ -125,6 +145,21 @@ var GameScreen = function(game)
             player.body.force.x += Math.cos(angle) * strength;
             player.body.force.y += Math.sin(angle) * strength;
         },
+        
+        applyEnemyGravity: function(enemy, angle) {
+            var strength = 250 + (10000 * enemy.planet.mass);
+            enemy.body.force.x += Math.cos(angle) * strength;
+            enemy.body.force.y += Math.sin(angle) * strength;
+        },
+        
+        enemyMove: function(enemy, angle) {
+            var speed = enemy.runSpeed;
+            
+            //enemy.animations.play('right');
+            enemy.body.force.x += Math.cos(angle + 90) * speed;
+            enemy.body.force.y += Math.sin(angle + 90) * speed;
+        },
+        
     
         //move the player
         playerMove: function(player, angle, multiplier)
@@ -191,11 +226,9 @@ var GameScreen = function(game)
         },
         
         //logic for collision detection
-        playerContact: function(body, shapeA, shapeB, equation)
-        {
-            if(body != null)
-            {
-                switch(body.sprite.key){
+        playerContact: function(body, shapeA, shapeB, equation) {
+            if(body != null) {
+                switch(body.sprite.key) {
                         case "planet":
                             //this.setGrounded();
                             this.player.grounded = true;
@@ -216,9 +249,17 @@ var GameScreen = function(game)
                             this.numStarsCollected = 0;
                             break;
                         case "enemy":
+                            this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
+                            this.game.state.states.RoundOver.maxStarsCollected = this.stars.length;
+                            this.game.state.states.RoundOver.lastLevel = this.currentLevel;
+                            this.game.state.states.RoundOver.buttonSound = this.buttonSound;
+                            this.game.state.start('RoundOver');
+                            this.numStarsCollected = 0;
                             break;
                         case "blackhole":
-                            this.teleportPlayer(body);
+                            if (!this.player.teleporting) {
+                                this.teleportPlayer(body);
+                            }
                             break;
                         case "oxygenTank":
                             this.collectOxygen(body);
@@ -232,8 +273,10 @@ var GameScreen = function(game)
             {
                 switch(body.sprite.key){
                         case "planet":
-                            //this.setGrounded();
                             this.player.grounded = false;
+                            break;
+                        case "blackhole":
+                            this.player.teleporting = false;
                             break;
                 }
             }
@@ -259,11 +302,28 @@ var GameScreen = function(game)
             // this.timer += 5;
             oxygenTank.destroy();
         },
-        
-        teleportPlayer: function(blackhole) {
-            // Move player's current position to a random blackhole's position, other than the current one.
-        },
         */
+        teleportPlayer: function(blackhole) {
+            this.player.teleporting = true;
+            // Makes a temp array containing all possible blackholes.
+            var teleportLocation = [];
+            for(var i = 0; i < this.blackholes.length; i++) {
+                teleportLocation.push(i);
+            }
+            // Takes out the array value for the blackhole the player entered.
+            teleportLocation.splice(blackhole.sprite.identifier, 1);
+            // Chooses a random number between 0 and the total amount of blackholes (minus 1).
+            var random = Math.floor(Math.random() * teleportLocation.length);
+
+
+            // The player is reset and positioned at a random blackhole location.
+            this.player.reset(this.blackholes.children[teleportLocation[random]].x, this.blackholes.children[teleportLocation[random]].y);
+            // Resets the player's forces.
+            this.playerForceReset(this.player);
+            // Looks for the closest planet for the player to land on.
+            this.calculateTargetPlanet(this.player, this.planets);
+        },
+        
 
 
         setGrounded: function()
@@ -299,120 +359,141 @@ var GameScreen = function(game)
         
          //JSON Loading for levels
         loadLevel: function(levelNum){
-				// JSON.parse() converts a string to JSON.
- 				var myJSON = JSON.parse(game.cache.getText(levelNum));
- 				
- 				var level = myJSON.level;
-                
-                // Planets
-                var planets = level.planets;
-                this.planets = game.add.group();
-				for( var i = 0; i < planets.length; i++){
-					var planet = planets[i];
-                    var currentPlanet = this.planets.create(planet.x, planet.y, 'planet');
-				    //do all that planet physics stuff
-                    game.physics.p2.enable(currentPlanet, false);
-                    currentPlanet.body.static = true;
-                    currentPlanet.anchor.setTo(0.5, 0.5);  
-                    currentPlanet.body.setCircle(92 * planet.scale); 
-                    currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
-                    currentPlanet.mass = planet.scale;
-                    currentPlanet.radius = 110 * planet.scale;
-                    currentPlanet.friction = planet.friction;
-                    currentPlanet.tint = Math.random() * 0xffffff;
-                    //currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
-                    if(i == 0){
-                         //This is where we should put the player based on the first planet
-                        this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
-                        this.player.animations.add('left', [0,1,2,3], 10, true);
-                        this.player.animations.add('right', [5,6,7,8], 10, true);
-                        game.physics.p2.enable(this.player, false);
-                        this.player.body.collideWorldBounds = true;
-                        this.player.body.velocity.x = 1;
-                        this.player.anchor.setTo(0.5, 0.5);
-                        this.player.grounded = false;
-                        this.player.jumped = true;
-                        this.player.targetPlanet = currentPlanet;
-                        this.player.jumpStrength = 17500;
-                        this.player.slamStrength = 16000;
-                        this.player.runSpeed = 300;
-                    }
-				}
-                
-                // Stars
-				var stars = level.stars;
-                this.stars = game.add.group();
-				for( var i = 0; i < stars.length; i++){
-					var star = stars[i];
-                    var currentStar = this.stars.create(star.x, star.y, 'star');
-				    //do all that star physics stuff
-                    game.physics.p2.enable(currentStar, false);
-                    currentStar.anchor.setTo(0.5, 0.5);
-                    currentStar.body.static = false;  
-				}
-                
-                // Wormholes
-                var wormholes = level.wormholes;
-                this.wormholes = game.add.group();
-				for( var i = 0; i < wormholes.length; i++){
-					var wormhole = wormholes[i];
-                    var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
-				    //do all that wormhole physics stuff
-                    game.physics.p2.enable(currentWormhole, false);
-                    currentWormhole.body.static = true;
-                    currentWormhole.anchor.setTo(0.5, 0.5);
-                    currentWormhole.body.setCircle(22 * wormhole.scale);
-                    currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);
-                    currentWormhole.renderAngle = wormhole.renderAngle;
-				}
-                
-                /* Project 3 Stuff
-                
-                // Oxygen Tanks
-				var oxygenTanks = level.oxygenTanks;
-                this.oxygenTanks = game.add.group();
-				for( var i = 0; i < oxygenTanks.length; i++){
-					var oxygenTank = oxygenTanks[i];
-                    var currentTank = this.oxygenTanks.create(oxygenTank.x, oxygenTank.y, 'oxygenTank');
-				    // Sets up the oxygen tank physics
-                    game.physics.p2.enable(currentTank, false);
-                    currentTank.anchor.setTo(0.5, 0.5);
-                    currentTank.body.static = false;  
-				}
-                
-                // Blackholes
-                var blackholes = level.blackholes;
-                this.blackholes = game.add.group();
-				for( var i = 0; i < blackholes.length; i++){
-					var blackhole = blackholes[i];
-                    var currentBlackhole = this.blackholes.create(blackhole.x, blackhole.y, 'blackhole');
-				    // Sets up the blackhole physics
-                    game.physics.p2.enable(currentBlackhole, false);
-                    currentBlackhole.body.static = true;
-                    currentBlackhole.anchor.setTo(0.5, 0.5);
-                    currentBlackhole.body.setCircle(22 * blackhole.scale);
-                    currentBlackhole.scale = new Phaser.Point(blackhole.scale, blackhole.scale);
-                    currentBlackhole.renderAngle = blackhole.renderAngle;
-				}
-            
-                // Asteroids 
-                var asteroids = level.asteroids;
-                this.asteroids = game.add.group();
-				for( var i = 0; i < asteroids.length; i++){
-					var asteroid = asteroids[i];
-                    var currentAsteroid = this.asteroids.create(asteroid.x, asteroid.y, 'asteroid');
-				    // Sets up the asteroid physics
-                    game.physics.p2.enable(currentAsteroid, false);
-                    currentAsteroid.body.static = true;
-                    currentAsteroid.anchor.setTo(0.5, 0.5);
-                    currentAsteroid.body.setCircle(11 * asteroid.scale);
-                    currentAsteroid.scale = new Phaser.Point(asteroid.scale, asteroid.scale);
-                    currentAsteroid.renderAngle = asteroid.renderAngle;
-				}
-            
-                */
-            
-                this.currentAngle = 0;
-			}
+            // JSON.parse() converts a string to JSON.
+            var myJSON = JSON.parse(game.cache.getText(levelNum));
+
+            var level = myJSON.level;
+
+            // Planets
+            var planets = level.planets;
+            this.planets = game.add.group();
+            for(var i = 0; i < planets.length; i++){
+                var planet = planets[i];
+                var currentPlanet = this.planets.create(planet.x, planet.y, 'planet');
+                //do all that planet physics stuff
+                game.physics.p2.enable(currentPlanet, false);
+                currentPlanet.body.static = true;
+                currentPlanet.anchor.setTo(0.5, 0.5);  
+                currentPlanet.body.setCircle(92 * planet.scale); 
+                currentPlanet.scale = new Phaser.Point(planet.scale, planet.scale);
+                currentPlanet.mass = planet.scale;
+                currentPlanet.radius = 110 * planet.scale;
+                currentPlanet.friction = planet.friction;
+                currentPlanet.tint = Math.random() * 0xffffff;
+                this.numPlanets.push(currentPlanet);
+                //currentPlanet.tint = (1/currentPlanet.friction) * 0xffffff;
+                if(i == 0){
+                     //This is where we should put the player based on the first planet
+                    this.player = game.add.sprite(currentPlanet.x, currentPlanet.y - (currentPlanet.width / 2 + 9), 'dude');
+                    this.player.animations.add('left', [0,1,2,3], 10, true);
+                    this.player.animations.add('right', [5,6,7,8], 10, true);
+                    game.physics.p2.enable(this.player, false);
+                    this.player.body.collideWorldBounds = true;
+                    this.player.body.velocity.x = 1;
+                    this.player.anchor.setTo(0.5, 0.5);
+                    this.player.grounded = false;
+                    this.player.jumped = true;
+                    this.player.teleporting = false;
+                    this.player.targetPlanet = currentPlanet;
+                    this.player.jumpStrength = 17500;
+                    this.player.slamStrength = 16000;
+                    this.player.runSpeed = 300;
+                }
+            }
+
+            // Stars
+            var stars = level.stars;
+            this.stars = game.add.group();
+            for(var i = 0; i < stars.length; i++){
+                var star = stars[i];
+                var currentStar = this.stars.create(star.x, star.y, 'star');
+                //do all that star physics stuff
+                game.physics.p2.enable(currentStar, false);
+                currentStar.anchor.setTo(0.5, 0.5);
+                currentStar.body.static = false;  
+            }
+
+            // Wormholes
+            var wormholes = level.wormholes;
+            this.wormholes = game.add.group();
+            for(var i = 0; i < wormholes.length; i++){
+                var wormhole = wormholes[i];
+                var currentWormhole = this.wormholes.create(wormhole.x, wormhole.y, 'wormhole');
+                //do all that wormhole physics stuff
+                game.physics.p2.enable(currentWormhole, false);
+                currentWormhole.body.static = true;
+                currentWormhole.anchor.setTo(0.5, 0.5);
+                currentWormhole.body.setCircle(22 * wormhole.scale);
+                currentWormhole.scale = new Phaser.Point(wormhole.scale, wormhole.scale);
+                currentWormhole.renderAngle = wormhole.renderAngle;
+            }
+
+            /* Project 3 Stuff
+            // Oxygen Tanks
+            var oxygenTanks = level.oxygenTanks;
+            this.oxygenTanks = game.add.group();
+            for( var i = 0; i < oxygenTanks.length; i++){
+                var oxygenTank = oxygenTanks[i];
+                var currentTank = this.oxygenTanks.create(oxygenTank.x, oxygenTank.y, 'oxygenTank');
+                // Sets up the oxygen tank physics
+                game.physics.p2.enable(currentTank, false);
+                currentTank.anchor.setTo(0.5, 0.5);
+                currentTank.body.static = false;  
+            }
+            */
+
+            // Enemies
+            var enemies = level.enemies;
+            this.enemies = game.add.group();
+            for(var i = 0; i < enemies.length; i++){
+                var enemy = enemies[i];
+                //var currentEnemy = this.enemies.create(enemy.x, enemy.y, 'enemy');
+                var currentEnemy = game.add.sprite(enemy.x, enemy.y, 'enemy');
+                // Sets up the enemy physics
+                game.physics.p2.enable(currentEnemy, false);
+                currentEnemy.scale = new Phaser.Point(enemy.scale, enemy.scale);
+                currentEnemy.body.setCircle(102 * enemy.scale);
+                currentEnemy.body.collideWorldBounds = true;
+                currentEnemy.body.velocity.x = 1;
+                currentEnemy.anchor.setTo(0.5, 0.5);
+                currentEnemy.runSpeed = 50;
+                currentEnemy.planet = this.numPlanets[enemy.planet];
+                this.numEnemies.push(currentEnemy);
+            }
+
+            // Blackholes
+            var blackholes = level.blackholes;
+            this.blackholes = game.add.group();
+            for(var i = 0; i < blackholes.length; i++){
+                var blackhole = blackholes[i];
+                var currentBlackhole = this.blackholes.create(blackhole.x, blackhole.y, 'blackhole');
+                currentBlackhole.identifier = i;
+                // Sets up the blackhole physics
+                game.physics.p2.enable(currentBlackhole, false);
+                currentBlackhole.body.static = true;
+                currentBlackhole.anchor.setTo(0.5, 0.5);
+                currentBlackhole.body.setCircle(79 * blackhole.scale);
+                currentBlackhole.scale = new Phaser.Point(blackhole.scale, blackhole.scale);
+                currentBlackhole.renderAngle = blackhole.renderAngle;
+            }
+
+            // Asteroids 
+            var asteroids = level.asteroids;
+            this.asteroids = game.add.group();
+            for(var i = 0; i < asteroids.length; i++){
+                var asteroid = asteroids[i];
+                var currentAsteroid = this.asteroids.create(asteroid.x, asteroid.y, 'asteroid');
+                // Sets up the asteroid physics
+                game.physics.p2.enable(currentAsteroid, false);
+                currentAsteroid.body.static = true;
+                currentAsteroid.anchor.setTo(0.5, 0.5);
+                currentAsteroid.body.setCircle(100 * asteroid.scale);
+                currentAsteroid.scale = new Phaser.Point(asteroid.scale, asteroid.scale);
+                currentAsteroid.renderAngle = asteroid.renderAngle;
+            }
+
+            this.currentAngle = 0;
+            //this.currentEnemyAngle = 0;
+        }
 
     }
