@@ -34,7 +34,7 @@ IntroScreen.prototype = {
         // Journey mode background music from: https://www.freeplaymusic.com
         this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
         // Jump sound from: http://soundbible.com/1343-Jump.html
-        this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3', 0.25);
+        this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3');
         // Wormhole sound from: http://soundbible.com/1639-Power-Up.html
         this.game.load.audio('wormholeSound', 'assets/audio/wormhole_audio.mp3');
         // Star sound from: http://soundbible.com/1744-Shooting-Star.html

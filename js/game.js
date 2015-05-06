@@ -61,7 +61,7 @@ var GameScreen = function(game)
             this.player.body.onBeginContact.add(this.playerContact, this);
             this.player.body.onEndContact.add(this.playerEndContact, this);
             
-            this.jumpSound = game.add.audio('jumpSound');
+            this.jumpSound = game.add.audio('jumpSound', 0.3);
             this.starSound = game.add.audio('starSound');
             this.completeSound = game.add.audio('completeSound');
             
@@ -101,17 +101,22 @@ var GameScreen = function(game)
             //calculate gravity
             this.applyGravity(this.player, this.currentAngle);
             
-            
-            //rotate the wormholes
-            for(var i = 0; i < this.wormholes.children.length; i++)
-            {
-                var w = this.wormholes.children[i];
-                w.renderAngle+= 0.5;
-                w.body.angle = w.renderAngle;
-            }
+            // Rotate the wormholes.
+            this.rotate(this.wormholes, 0.5);
+            // Rotate the blackholes.
+            this.rotate(this.blackholes, 2.0);
             
 
            
+        },
+        
+        // Rotates the objects in a given array based on their render angle and a given rotation speed.
+        rotate: function(rotators, rotateSpeed) {
+            for(var i = 0; i < rotators.children.length; i++) {
+                var r = rotators.children[i];
+                r.renderAngle += rotateSpeed;
+                r.body.angle = r.renderAngle;
+            }
         },
         
         //calculate the planet that the player should be attracted to
@@ -256,11 +261,13 @@ var GameScreen = function(game)
                             this.numStarsCollected = 0;
                             break;
                         case "blackhole":
+                            this.blackholeSound.play();
                             if (!this.player.teleporting) {
                                 this.teleportPlayer(body);
                             }
                             break;
                         case "oxygenTank":
+                            this.oxygenSound.play();
                             this.collectOxygen(body);
                             break;
                 }
@@ -338,6 +345,7 @@ var GameScreen = function(game)
                 //console.log(game.math.radToDeg(this.currentAngle));
                 this.playerJump(this.player, this.currentAngle);
                 this.player.jumped = true;
+                //this.jumpSound.volume = 0.3;
                 this.jumpSound.play();
             }
             else
