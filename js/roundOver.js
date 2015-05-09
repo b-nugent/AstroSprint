@@ -17,14 +17,14 @@ RoundOverScreen.prototype = {
     preload: function(){
         console.log("RoundOver preload");
         this.game.load.image('play', 'assets/play.png');
-        this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
+        /*this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
             fontSize: '32px', fill: '#FFCC00' 
         });
         this.statusText.anchor.setTo(0.5, 0.5);
         //this.game.load.image('retry', 'assets/retry.png');
         //this.game.load.image('next', 'assets/next.png');
         //this.game.load.image('levels', 'assets/levelSelect.png');
-        
+        */
     },
 
     create: function(){
