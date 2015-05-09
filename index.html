@@ -13,31 +13,72 @@
     <style type="text/css">
         body {
             margin: 0;
+            background-color: black;
+        }
+        canvas {
+  
+            margin: auto;
+   
         }
     </style>
 </head>
 <body>
 
 <script type="text/javascript">
-// Full Docs: http://docs.phaser.io
-// Phase.Game() Docs: http://docs.phaser.io/Phaser.Game.html
+    // Full Docs: http://docs.phaser.io
+    // Phase.Game() Docs: http://docs.phaser.io/Phaser.Game.html
     
-"use strict";
-
-//var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var game = new Phaser.Game(800, 600, Phaser.AUTO);    
+    "use strict";
     
-game.state.add('Game', GameScreen);
-game.state.add('Intro', IntroScreen);
-game.state.add('Level', LevelScreen);
-game.state.add('RoundOver', RoundOverScreen);
-game.state.start('Intro');
-
-var levelCount = 2;
-game.state.states.Intro.levelCount = levelCount;
-game.state.states.Level.levelCount = levelCount;
-game.state.states.RoundOver.levelCount = levelCount;
-
+    //var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var game = new Phaser.Game(800, 600, Phaser.AUTO);    
+    
+    game.state.add('Game', GameScreen);
+    game.state.add('Intro', IntroScreen);
+    game.state.add('Level', LevelScreen);
+    game.state.add('RoundOver', RoundOverScreen);
+    game.state.start('Intro');
+    
+    var levelCount = 2;
+    game.state.states.Intro.levelCount = levelCount;
+    game.state.states.Level.levelCount = levelCount;
+    game.state.states.RoundOver.levelCount = levelCount;
+    
+   //Mobile stuff
+    var ua = undefined;
+    var android = false;
+    var ios = false;
+    
+    window.onload = function(){
+        ua = navigator.userAgent.toLowerCase();
+        android = this.ua.indexOf('android') > -1 ? true : false;
+        ios = ( this.ua.indexOf('iphone') > -1 || this.ua.indexOf('ipad') > -1 || this.ua.indexOf('ipod') > -1 ) ? true : false;
+        resizeGame();
+    }
+    
+    window.onresize = function(){
+        resizeGame();
+    }
+    
+    function resizeGame() {
+            /*var height = window.innerHeight;
+            var width = window.innerWidth;
+            
+            game.width = width;
+            game.height = height;
+            game.stage.bounds.width = width;
+            game.stage.bounds.height = height;
+            
+            if (game.renderType === Phaser.WEBGL)
+            {
+                game.renderer.resize(width, height);
+            }
+        */
+            if (android || ios) {
+				document.body.style.height = (window.innerHeight + 50) + 'px';
+			}
+    }
+    
 </script>
 
 </body>

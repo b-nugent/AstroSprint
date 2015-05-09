@@ -56,8 +56,7 @@ var GameScreen = function(game)
             this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
             this.spaceKey.onDown.add(this.handleSpacePress, this);
-
-
+            game.input.onDown.add(this.handleSpacePress, this);
             this.player.body.onBeginContact.add(this.playerContact, this);
             this.player.body.onEndContact.add(this.playerEndContact, this);
             

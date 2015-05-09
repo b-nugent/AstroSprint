@@ -9,6 +9,16 @@ IntroScreen.prototype = {
     },
 
     preload: function(){
+        //  This sets a limit on the up-scale
+        game.scale.maxWidth = 800;
+        game.scale.maxHeight = 600;
+
+        //  Then we tell Phaser that we want it to scale up to whatever the browser can             handle, but to do it proportionally
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.setScreenSize();
+        //game.stage.scale.pageAlignHorizontally = true;
+       // game.stage.scale.pageAlignVeritcally = true;
+        //game.stage.scale.refresh();
         console.log("Intro preload");
         this.game.load.image('play', 'assets/play.png');
         this.game.load.image('next', 'assets/next.png');
