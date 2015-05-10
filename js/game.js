@@ -21,6 +21,10 @@ var GameScreen = function(game)
         this.offGround = false;
         this.levels = undefined;
         this.currentLevel = 0;
+        this.usingTimer = true; //Are we in timer mode
+        this.timer = undefined; //Timer
+        this.timeLeft = 0; //Time until oxygen runs out
+        this.timeText = undefined;
         
         this.jumpSound = undefined;
         this.starSound = undefined;
@@ -72,6 +76,7 @@ var GameScreen = function(game)
         },
         
         update: function(){
+            //increment timer
             // Move all of the enemies
             for(var i = 0; i < this.numEnemies.length; i++) {
                 this.currentAngle = Math.atan2(this.numEnemies[i].planet.y - this.numEnemies[i].y, this.numEnemies[i].planet.x - this.numEnemies[i].x);
@@ -248,6 +253,7 @@ var GameScreen = function(game)
                             this.game.state.states.RoundOver.maxStarsCollected = this.stars.length;
                             this.game.state.states.RoundOver.lastLevel = this.currentLevel;
                             this.game.state.states.RoundOver.buttonSound = this.buttonSound;
+                            this.timer.destroy();
                             this.game.state.start('RoundOver');
                             this.numStarsCollected = 0;
                             break;
@@ -499,9 +505,23 @@ var GameScreen = function(game)
                 currentAsteroid.scale = new Phaser.Point(asteroid.scale, asteroid.scale);
                 currentAsteroid.renderAngle = asteroid.renderAngle;
             }
-
+            
+            //Timer
+            var time = level.timer;
+            if(time){
+                this.timer = game.time.create(false);
+                this.timer.loop(1000, this.timerDown, this);
+                this.usingTimer = true;
+                this.timeLeft = time;
+                this.timer.start();
+                this.timeText = game.add.text(16, 40, 'Oxygen Left: '+ this.timeLeft, { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
+            }
             this.currentAngle = 0;
             //this.currentEnemyAngle = 0;
+        },
+        
+        timerDown: function(){
+            this.timeLeft--;
+            this.timeText.text = 'Oxygen Left: '+ this.timeLeft;
         }
-
     }
