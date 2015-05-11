@@ -39,12 +39,15 @@ var GameScreen = function(game)
     GameScreen.prototype = {
         init: function(){
             console.log("Game Screen Init");
+
             //start the physics system
             game.physics.startSystem(Phaser.Physics.P2JS);
         },
         
         create: function(){
             console.log("Game Screen Create");
+            
+
 
             
             this.numEnemies = [];
@@ -73,9 +76,18 @@ var GameScreen = function(game)
             this.oxygenSound = game.add.audio('oxygenSound');
             this.breathSound = game.add.audio('breathSound');
             
+            
+            
+                        
+            //game.add.tileSprite(0, 0, 1920, 1920, 'background');
+            //game.world.setBounds(0, 0, 1920, 1920);
+            //game.camera.follow(player);
+            
         },
         
         update: function(){
+            //game.camera.focusOnXY(this.player.body.x - game.camera.view.width/2, this.player.body.y - game.camera.view.height/2);
+            console.log(game.camera.view.width);
             //increment timer
             // Move all of the enemies
             for(var i = 0; i < this.numEnemies.length; i++) {
@@ -258,11 +270,10 @@ var GameScreen = function(game)
                             this.numStarsCollected = 0;
                             break;
                         case "enemy":
-                            this.game.state.states.RoundOver.numStarsCollected = this.numStarsCollected;
-                            this.game.state.states.RoundOver.maxStarsCollected = this.stars.length;
-                            this.game.state.states.RoundOver.lastLevel = this.currentLevel;
-                            this.game.state.states.RoundOver.buttonSound = this.buttonSound;
-                            this.game.state.start('RoundOver');
+                            this.game.state.states.RoundFailed.numStarsCollected = this.numStarsCollected;
+                            this.game.state.states.RoundFailed.maxStarsCollected = this.stars.length;
+                            this.game.state.states.RoundFailed.buttonSound = this.buttonSound;
+                            this.game.state.start('RoundFailed');
                             this.numStarsCollected = 0;
                             break;
                         case "blackhole":
@@ -517,7 +528,15 @@ var GameScreen = function(game)
                 this.timeText = game.add.text(16, 40, 'Oxygen Left: '+ this.timeLeft, { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
             }
             this.currentAngle = 0;
-            //this.currentEnemyAngle = 0;
+            
+            
+            // Set camera parameters
+            //game.world.setBounds(0, 0, 800, 600);
+            //game.camera.visible = true;
+            game.camera.scale(0.5, 0.5);
+            //game.camera.setSize(200, 200);
+            game.camera.follow(this.player, game.camera.FOLLOW_LOCKON);
+
         },
         
         timerDown: function(){

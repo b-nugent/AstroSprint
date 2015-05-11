@@ -31,6 +31,7 @@ IntroScreen.prototype = {
         this.game.load.image('darkstar', 'assets/darkstar.png');
         this.game.load.image('planet', 'assets/circle.png');
         this.game.load.image('levelcomplete', 'assets/levelcomplete.png');
+        this.game.load.image('levelfailed', 'assets/levelfailed.png');
         this.game.load.image('bigstar', 'assets/bigstar.png');
         this.game.load.image('logo', 'assets/logo.png');
         this.game.load.image('level', 'assets/levelicon.png');
