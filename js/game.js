@@ -562,7 +562,7 @@ var GameScreen = function(game)
             //game.camera.focusOnXY(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2);
             //this.camera = Phaser.camera(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2, 200, 200);
             
-            game.camera.setSize(300, 300);
+            //game.camera.setSize(300, 300);
             //game.camera.x = this.player.body.x;// - game.camera.view.width/2;
            // game.camera.y = this.player.body.y;// - game.camera.view.height/2;
             
