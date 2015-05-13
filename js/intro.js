@@ -10,8 +10,8 @@ IntroScreen.prototype = {
 
     preload: function(){
         //  This sets a limit on the up-scale
-        game.scale.maxWidth = 800;
-        game.scale.maxHeight = 600;
+        game.scale.maxWidth = 1200;
+        game.scale.maxHeight = 675;
 
         //  Then we tell Phaser that we want it to scale up to whatever the browser can             handle, but to do it proportionally
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -80,6 +80,7 @@ IntroScreen.prototype = {
     create: function(){
         console.log("Intro create");
         var bg = this.game.add.sprite(0, 0, 'sky');
+        bg.scale = new Phaser.Point(0.5, 0.5);
         bg.tint = 0x525252;
         var logo = this.game.add.sprite(game.world.width/2, 200, "logo");
         logo.anchor.setTo(0.5,0.5);
@@ -88,7 +89,7 @@ IntroScreen.prototype = {
         this.backgroundMusic = game.add.audio('backgroundMusic', 1, true);
         this.backgroundMusic.play('', 0, 1, true);
         
-        var playButton = this.game.add.button(game.world.width/2, game.world.height - 200, "play", this.playGame, this);
+        var playButton = this.game.add.button(game.world.width/2, game.world.height - 150, "play", this.playGame, this);
         playButton.anchor.setTo(0.5, 0.5);
         
         this.loadText = game.add.text(-100, -100, 'If you can read this, hi', { font: "900 'Orbitron', sans-serif", fontSize: '12px', fill: '#e2fbb6' });

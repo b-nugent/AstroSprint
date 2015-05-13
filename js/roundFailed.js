@@ -15,18 +15,20 @@ RoundFailedScreen.prototype = {
     preload: function(){
         console.log("RoundOver preload");
         this.game.load.image('play', 'assets/play.png');
+        game.world.setBounds(0, 0, 800, 450);
+
     },
 
     create: function(){
         console.log("RoundOver create");
         var bg = this.game.add.sprite(0, 0, 'sky');
         bg.tint = 0x525252;
-        var complete = this.game.add.sprite(game.world.width/2, 200, "levelfailed");
+        var complete = this.game.add.sprite(game.world.width/2, 150, "levelfailed");
         complete.anchor.setTo(0.5, 0.5);
         
-        var retryButton = this.game.add.button(300, game.world.height - 200, "retry", this.retryRound, this);
+        var retryButton = this.game.add.button(300, game.world.height - 150, "retry", this.retryRound, this);
         retryButton.anchor.setTo(0.5, 0.5);
-        var levelSelectButton = this.game.add.button(500, game.world.height - 200, "menu", this.levelSelect, this);
+        var levelSelectButton = this.game.add.button(500, game.world.height - 150, "menu", this.levelSelect, this);
         levelSelectButton.anchor.setTo(0.5, 0.5);
     },
 

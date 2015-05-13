@@ -13,6 +13,8 @@ LevelScreen.prototype = {
 
     preload: function(){
         console.log("Level preload");
+        game.world.setBounds(0, 0, 800, 450);
+
     },
 
     create: function(){

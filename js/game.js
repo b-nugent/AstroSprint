@@ -40,8 +40,9 @@ var GameScreen = function(game)
     GameScreen.prototype = {
         init: function(){
             console.log("Game Screen Init");
-            game.add.tileSprite(0, 0, 800, 600, 'sky');
-            game.world.setBounds(0, 0, 800, 600);
+            var bg = game.add.tileSprite(0, 0, 800, 450, 'sky');
+            bg.scale = new Phaser.Point(.1,.1);
+            game.world.setBounds(0, 0, 1600, 900);
             //start the physics system
             game.physics.startSystem(Phaser.Physics.P2JS);
         },
@@ -263,7 +264,7 @@ var GameScreen = function(game)
                             this.game.state.states.RoundOver.maxStarsCollected = this.stars.length;
                             this.game.state.states.RoundOver.lastLevel = this.currentLevel;
                             this.game.state.states.RoundOver.buttonSound = this.buttonSound;
-                            this.timer.destroy();
+                            if(this.usingTimer)this.timer.destroy();
                             this.game.state.start('RoundOver');
                             this.numStarsCollected = 0;
                             break;
@@ -517,6 +518,7 @@ var GameScreen = function(game)
             
             //Timer
             var time = level.timer;
+            this.usingTimer = false;
             if(time){
                 this.timer = game.time.create(false);
                 this.timer.loop(1000, this.timerDown, this);
