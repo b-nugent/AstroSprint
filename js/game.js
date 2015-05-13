@@ -124,13 +124,15 @@ var GameScreen = function(game)
             this.rotate(this.blackholes, 1.5);
             
             // If the player runs out of time, the mission fails.
-            if(this.timeLeft <= 0) {
-                this.breathSound.volume = 2.0;
-                this.breathSound.play();
-                this.game.state.states.RoundFailed.buttonSound = this.buttonSound;
-                if(this.usingTimer)this.timer.destroy();
-                this.game.state.start('RoundFailed');
-                this.numStarsCollected = 0;    
+            if(this.usingTimer) {
+                if(this.timeLeft <= 0) {
+                    this.breathSound.volume = 2.0;
+                    this.breathSound.play();
+                    this.game.state.states.RoundFailed.buttonSound = this.buttonSound;
+                    if(this.usingTimer)this.timer.destroy();
+                    this.game.state.start('RoundFailed');
+                    this.numStarsCollected = 0;    
+                }
             }
            
         },
@@ -354,9 +356,13 @@ var GameScreen = function(game)
             teleportLocation.splice(blackhole.sprite.identifier, 1);
             // Chooses a random number between 0 and the total amount of blackholes (minus 1).
             var random = Math.floor(Math.random() * teleportLocation.length);
-
+            
+            //console.log("Before: " + this.player.targetPlanet.x);
             // The player is reset and positioned at a random blackhole location.
             this.player.reset(this.blackholes.children[teleportLocation[random]].x, this.blackholes.children[teleportLocation[random]].y);
+            
+            //this.player.targetPlanet = this.blackholes.children[teleportLocation[random]].planet;
+            //console.log("After: " + this.player.targetPlanet.x);
         },
         
 
@@ -516,6 +522,7 @@ var GameScreen = function(game)
                 currentBlackhole.body.setCircle(79 * blackhole.scale);
                 currentBlackhole.scale = new Phaser.Point(blackhole.scale, blackhole.scale);
                 currentBlackhole.renderAngle = blackhole.renderAngle;
+                currentBlackhole.planet = this.numPlanets[blackhole.planet];
             }
 
             // Asteroids 
@@ -556,8 +563,8 @@ var GameScreen = function(game)
             //this.camera = Phaser.camera(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2, 200, 200);
             
             game.camera.setSize(300, 300);
-            game.camera.x = this.player.body.x - game.camera.view.width/2;
-            game.camera.y = this.player.body.y - game.camera.view.height/2;
+            //game.camera.x = this.player.body.x;// - game.camera.view.width/2;
+           // game.camera.y = this.player.body.y;// - game.camera.view.height/2;
             
             //game.camera.view = new Phaser.Rectangle(0, 0, 100, 100);
             //game.camera.setSize(200, 200);

@@ -7,16 +7,19 @@
 			{"x":550, "y":300}
 		],
 		"planets":[
-			{"x":400, "y":300, "scale":1, "friction":1.0}
+			{"x":400, "y":300, "scale":1, "friction":1.0},
+			{"x":1200, "y":300, "scale":1, "friction":1.0},
+			{"x":400, "y":700, "scale":1, "friction":1.0},
+			{"x":1200, "y":700, "scale":1, "friction":1.0}
 		],
 		"wormholes":[
-			{"x":400, "y":100, "scale":0.5, "renderAngle":90.0}
+			{"x":1000, "y":600, "scale":0.5, "renderAngle":90.0}
 		],
 		"blackholes":[
-			{"x":200, "y":200, "scale":0.50, "renderAngle":90.0},
-			{"x":200, "y":400, "scale":0.50, "renderAngle":90.0},
-			{"x":600, "y":200, "scale":0.50, "renderAngle":90.0},
-			{"x":600, "y":400, "scale":0.50, "renderAngle":90.0}
+			{"x":200, "y":200, "scale":0.50, "renderAngle":90.0, "planet": 0},
+			{"x":1400, "y":200, "scale":0.50, "renderAngle":90.0, "planet": 1},
+			{"x":200, "y":800, "scale":0.50, "renderAngle":90.0, "planet": 2},
+			{"x":1400, "y":800, "scale":0.50, "renderAngle":90.0, "planet": 3}
 		],
 		"asteroids":[
 		],
