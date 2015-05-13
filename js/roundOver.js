@@ -1,6 +1,6 @@
 var RoundOverScreen = function(game){
-this.levelCount = 0;
-this.lastLevel = 0;
+    this.levelCount = 0;
+    this.lastLevel = 0;
 }
     
 RoundOverScreen.prototype = {
@@ -10,20 +10,22 @@ RoundOverScreen.prototype = {
         var maxStarsCollected = 0;
         var scoreStars = 0;
         var statusText = undefined;
-        var stars;
+        var stars = undefined;
         var buttonSound = undefined;
     },
 
     preload: function(){
         console.log("RoundOver preload");
+        /*
         this.game.load.image('play', 'assets/play.png');
-        /*this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
+        
+        this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
             fontSize: '32px', fill: '#FFCC00' 
         });
         this.statusText.anchor.setTo(0.5, 0.5);
-        //this.game.load.image('retry', 'assets/retry.png');
-        //this.game.load.image('next', 'assets/next.png');
-        //this.game.load.image('levels', 'assets/levelSelect.png');
+        this.game.load.image('retry', 'assets/retry.png');
+        this.game.load.image('next', 'assets/next.png');
+        this.game.load.image('levels', 'assets/menu.png');
         */
     },
 
@@ -48,27 +50,7 @@ RoundOverScreen.prototype = {
             var levelSelectButton = this.game.add.button(600, game.world.height - 200, "menu", this.levelSelect, this);
             levelSelectButton.anchor.setTo(0.5, 0.5);
         }
-        /*
-        var quitButton = this.game.add.button(game.world.width/2, game.world.height/2 - 100, "quit", this.shutdown, this);
-        quitButton.anchor.setTo(0.5, 0.5);
-        */
-        /*
-        if(this.numStarsCollected > 0) {
-            for(var i = 0; i < this.numStarsCollected; i++){
-                this.stars.create((game.world.height/2)+(i*60), 300, 'star');
-                this.stars[i].anchor.setTo(0.5, 0.5);
-            }
-            for(var k = 0; k < 3 - this.numStarsCollected; k++){
-                this.stars.create((game.world.height/2)+(i*60) + (this.numStarsCollected*60), 300, 'darkstar');
-                this.stars[k].anchor.setTo(0.5, 0.5);
-            }
-        } else {
-            for(var i = 0; i < 3; i++){
-                this.stars.create((game.world.height/2)+(i*60) + (this.numStarsCollected*60), 300, 'darkstar');
-                this.stars[i].anchor.setTo(0.5, 0.5);
-            }
-        }
-        */
+
         this.stars = this.game.add.group();
         var scorePercent = this.numStarsCollected/this.maxStarsCollected;
         console.log(scorePercent);
@@ -108,12 +90,14 @@ RoundOverScreen.prototype = {
         this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
+    
     nextRound: function(){
         this.buttonSound.play();
         this.game.state.states.Game.currentLevel++;
         this.numStarsCollected = 0;
         this.game.state.start("Game");
     },
+    
     levelSelect: function(){
         this.buttonSound.play();
         this.numStarsCollected = 0;

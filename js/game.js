@@ -7,6 +7,7 @@ var GameScreen = function(game)
         this.spaceKey = undefined;
         this.stars = undefined;
         this.wormholes = undefined;
+        this.camera = undefined;
         
         this.blackholes = undefined;
         this.enemies = undefined;
@@ -39,7 +40,8 @@ var GameScreen = function(game)
     GameScreen.prototype = {
         init: function(){
             console.log("Game Screen Init");
-
+            game.add.tileSprite(0, 0, 800, 600, 'sky');
+            game.world.setBounds(0, 0, 800, 600);
             //start the physics system
             game.physics.startSystem(Phaser.Physics.P2JS);
         },
@@ -79,15 +81,11 @@ var GameScreen = function(game)
             
             
                         
-            //game.add.tileSprite(0, 0, 1920, 1920, 'background');
-            //game.world.setBounds(0, 0, 1920, 1920);
-            //game.camera.follow(player);
             
         },
         
         update: function(){
-            //game.camera.focusOnXY(this.player.body.x - game.camera.view.width/2, this.player.body.y - game.camera.view.height/2);
-            console.log(game.camera.view.width);
+            //game.camera.focusOnXY(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2);
             //increment timer
             // Move all of the enemies
             for(var i = 0; i < this.numEnemies.length; i++) {
@@ -533,9 +531,19 @@ var GameScreen = function(game)
             // Set camera parameters
             //game.world.setBounds(0, 0, 800, 600);
             //game.camera.visible = true;
-            game.camera.scale(0.5, 0.5);
+            //game.camera.scale = 0.5;
+            //game.camera.focusOnXY(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2);
+            //this.camera = Phaser.camera(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2, 200, 200);
+            
+            game.camera.setSize(300, 300);
+            game.camera.x = this.player.body.x - game.camera.view.width/2;
+            game.camera.y = this.player.body.y - game.camera.view.height/2;
+            
+            //game.camera.view = new Phaser.Rectangle(0, 0, 100, 100);
             //game.camera.setSize(200, 200);
-            game.camera.follow(this.player, game.camera.FOLLOW_LOCKON);
+            //game.camera.focusOn(this.player);
+            game.camera.follow(this.player);
+            //this.camera.deadzone = new Phaser.Rectangle(this.camera.x, this.camera.y, 20, 20);
 
         },
         
