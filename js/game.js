@@ -122,7 +122,15 @@ var GameScreen = function(game)
             // Rotate the blackholes.
             this.rotate(this.blackholes, 1.5);
             
-
+            // If the player runs out of time, the mission fails.
+            if(this.timeLeft <= 0) {
+                this.breathSound.volume = 2.0;
+                this.breathSound.play();
+                this.game.state.states.RoundFailed.buttonSound = this.buttonSound;
+                if(this.usingTimer)this.timer.destroy();
+                this.game.state.start('RoundFailed');
+                this.numStarsCollected = 0;    
+            }
            
         },
         
@@ -364,7 +372,7 @@ var GameScreen = function(game)
                 //console.log(game.math.radToDeg(this.currentAngle));
                 this.playerJump(this.player, this.currentAngle);
                 this.player.jumped = true;
-                //this.jumpSound.volume = 0.3;
+                this.jumpSound.volume = 0.3;
                 this.jumpSound.play();
             }
             else
@@ -466,7 +474,8 @@ var GameScreen = function(game)
                     // Sets up the oxygen tank physics
                     game.physics.p2.enable(currentTank, false);
                     currentTank.anchor.setTo(0.5, 0.5);
-                    currentTank.scale = new Phaser.Point(0.25,0.25);
+                    currentTank.scale = new Phaser.Point(0.25, 0.25);
+                    currentTank.body.setRectangle(60*currentTank.scale.x, 158*currentTank.scale.y);
                     currentTank.body.static = false;  
                 }
             }
