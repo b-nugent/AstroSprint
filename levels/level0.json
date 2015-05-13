@@ -22,6 +22,9 @@
 		],
 		"enemies":[
 		],
+		"oxygenTanks":[
+			{"x":450, "y":500}
+		],
 		"timer":60
 	}
 }

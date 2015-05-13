@@ -61,6 +61,7 @@ var GameScreen = function(game)
             this.loadLevel("level"+this.currentLevel);
             //this.loadLevel("test");
             this.scoreText = game.add.text(16, 16, 'Stars Collected: 0', { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
+            this.scoreText.fixedToCamera = true;
             this.cursors = game.input.keyboard.createCursorKeys();
             
             this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -281,7 +282,7 @@ var GameScreen = function(game)
                                 this.teleportPlayer(body);
                             }
                             break;
-                        case "oxygenTank":
+                        case "oxygen":
                             this.oxygenSound.play();
                             this.collectOxygen(body);
                             break;
@@ -320,16 +321,19 @@ var GameScreen = function(game)
             star.destroy();
         },
         
-        /*
+        
         collectOxygen: function(oxygenTank) {
             // Removes the oxygen tank from the screen
+            console.log("tank");
             oxygenTank.sprite.exists = false;
             this.oxygenSound.play();
             // add time to the oxygen timer, increment TBD
-            // this.timer += 5;
+            this.timeLeft += 5;
+            this.timeText.text = 'Oxygen Left: '+ this.timeLeft;
+
             oxygenTank.destroy();
         },
-        */
+        
         teleportPlayer: function(blackhole) {
             this.player.teleporting = true;
             // Makes a temp array containing all possible blackholes.
@@ -451,20 +455,21 @@ var GameScreen = function(game)
                 currentWormhole.renderAngle = wormhole.renderAngle;
             }
 
-            /* Project 3 Stuff
+            // Project 3 Stuff
             // Oxygen Tanks
             var oxygenTanks = level.oxygenTanks;
             this.oxygenTanks = game.add.group();
-            for( var i = 0; i < oxygenTanks.length; i++){
-                var oxygenTank = oxygenTanks[i];
-                var currentTank = this.oxygenTanks.create(oxygenTank.x, oxygenTank.y, 'oxygenTank');
-                // Sets up the oxygen tank physics
-                game.physics.p2.enable(currentTank, false);
-                currentTank.anchor.setTo(0.5, 0.5);
-                currentTank.body.static = false;  
+            if(oxygenTanks){
+                for( var i = 0; i < oxygenTanks.length; i++){
+                    var oxygenTank = oxygenTanks[i];
+                    var currentTank = this.oxygenTanks.create(oxygenTank.x, oxygenTank.y, 'oxygen');
+                    // Sets up the oxygen tank physics
+                    game.physics.p2.enable(currentTank, false);
+                    currentTank.anchor.setTo(0.5, 0.5);
+                    currentTank.scale = new Phaser.Point(0.25,0.25);
+                    currentTank.body.static = false;  
+                }
             }
-            */
-
             // Enemies
             var enemies = level.enemies;
             this.enemies = game.add.group();
@@ -526,6 +531,7 @@ var GameScreen = function(game)
                 this.timeLeft = time;
                 this.timer.start();
                 this.timeText = game.add.text(16, 40, 'Oxygen Left: '+ this.timeLeft, { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
+                this.timeText.fixedToCamera = true;
             }
             this.currentAngle = 0;
             
