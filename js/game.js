@@ -15,6 +15,7 @@ var GameScreen = function(game)
         
         var numEnemies = undefined;
         var numPlanets = undefined;
+        var numStars = 0;
         
         //this.totalScore = 0;
         this.numStarsCollected = 0;
@@ -60,7 +61,7 @@ var GameScreen = function(game)
             this.game.add.sprite(0, 0, 'sky');
             this.loadLevel("level"+this.currentLevel);
             //this.loadLevel("test");
-            this.scoreText = game.add.text(16, 16, 'Stars Collected: 0', { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
+            this.scoreText = game.add.text(16, 16, 'Stars Collected: 0/' + this.numStars, { font: "900 'Orbitron', sans-serif", fontSize: '24px', fill: '#e2fbb6' });
             this.scoreText.fixedToCamera = true;
             this.cursors = game.input.keyboard.createCursorKeys();
             
@@ -325,7 +326,7 @@ var GameScreen = function(game)
             star.sprite.exists = false;
             this.starSound.play();
             this.numStarsCollected++;
-            this.scoreText.text = 'Stars Collected: ' + this.numStarsCollected;
+            this.scoreText.text = 'Stars Collected: ' + this.numStarsCollected + "/" + this.numStars;
             star.destroy();
         },
         
@@ -437,6 +438,7 @@ var GameScreen = function(game)
             }
 
             // Stars
+            this.numStars = 0;
             var stars = level.stars;
             this.stars = game.add.group();
             for(var i = 0; i < stars.length; i++){
@@ -445,7 +447,8 @@ var GameScreen = function(game)
                 //do all that star physics stuff
                 game.physics.p2.enable(currentStar, false);
                 currentStar.anchor.setTo(0.5, 0.5);
-                currentStar.body.static = false;  
+                currentStar.body.static = false;
+                this.numStars++;
             }
 
             // Wormholes
