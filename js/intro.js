@@ -1,6 +1,7 @@
 var IntroScreen = function(game){
     this.loadText = undefined;
-    this.levelCount = 0;
+    this.journeylevelCount = 0;
+    this.challengelevelCount = 0;
 }
     
 IntroScreen.prototype = {
@@ -35,6 +36,8 @@ IntroScreen.prototype = {
         this.game.load.image('bigstar', 'assets/bigstar.png');
         this.game.load.image('logo', 'assets/logo.png');
         this.game.load.image('level', 'assets/levelicon.png');
+        this.game.load.image('journey', 'assets/journey.png');
+        this.game.load.image('challenge', 'assets/challenge.png');
         this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
         
         this.game.load.spritesheet('enemy', 'assets/enemy.png', 33.5, 39, 4);
@@ -72,8 +75,12 @@ IntroScreen.prototype = {
             //debugger;
         }
         
-        for(var i = 0; i < this.levelCount; i++){
-            this.game.load.text('level' + i,'levels/level'+i+'.json');
+        for(var i = 0; i < this.journeylevelCount; i++){
+            this.game.load.text('journeyLevel' + i,'levels/journey/level'+i+'.json');
+        }
+        
+        for(var i = 0; i < this.challengelevelCount; i++){
+            this.game.load.text('challengeLevel' + i,'levels/challenge/level'+i+'.json');
         }
     },
 
@@ -113,9 +120,14 @@ IntroScreen.prototype = {
     },
     
     populateLevelData: function(){
-        for(var i = 0; i < this.levelCount; i++)
+        for(var i = 0; i < this.journeylevelCount; i++)
         {
-            localStorage.setItem('level'+i+'_starCount', 0);
+            localStorage.setItem('journeyLevel'+i+'_starCount', 0);
+        }
+        
+        for(var i = 0; i < this.challengelevelCount; i++)
+        {
+            localStorage.setItem('challengeLevel'+i+'_starCount', 0);
         }
         
         localStorage.setItem('accessed', true);

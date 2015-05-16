@@ -1,6 +1,7 @@
 var RoundOverScreen = function(game){
     this.levelCount = 0;
     this.lastLevel = 0;
+    this.storageText = "";
 }
     
 RoundOverScreen.prototype = {
@@ -16,17 +17,6 @@ RoundOverScreen.prototype = {
 
     preload: function(){
         console.log("RoundOver preload");
-        /*
-        this.game.load.image('play', 'assets/play.png');
-        
-        this.statusText = game.add.text(game.world.width/2, game.world.height/2, 'You collected ' + this.numStarsCollected + ' stars this round!', { 
-            fontSize: '32px', fill: '#FFCC00' 
-        });
-        this.statusText.anchor.setTo(0.5, 0.5);
-        this.game.load.image('retry', 'assets/retry.png');
-        this.game.load.image('next', 'assets/next.png');
-        this.game.load.image('levels', 'assets/menu.png');
-        */
         game.world.setBounds(0, 0, 800, 450);
 
     },
@@ -80,10 +70,10 @@ RoundOverScreen.prototype = {
         
         
         //local storage check
-        var localStarsCollected = localStorage.getItem('level'+this.lastLevel+'_starCount');
+        var localStarsCollected = localStorage.getItem(this.storageText+this.lastLevel+'_starCount');
         if(this.numStarsCollected > localStarsCollected)
         {
-            localStorage.setItem('level'+this.lastLevel+'_starCount', this.numStarsCollected);
+            localStorage.setItem(this.storageText+this.lastLevel+'_starCount', this.numStarsCollected);
         }
     },
 

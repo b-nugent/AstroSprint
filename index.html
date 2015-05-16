@@ -10,7 +10,7 @@
     <script type="text/javascript" src="js/levelSelect.js"></script>
     <script type="text/javascript" src="js/roundOver.js"></script>
     <script type="text/javascript" src="js/roundFailed.js"></script>
-    <script type="text/javascript" src="levels/level0.json"></script>
+    <script type="text/javascript" src="levels/journey/level0.json"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -40,10 +40,12 @@
     game.state.add('RoundFailed', RoundFailedScreen);
     game.state.start('Intro');
     
-    var levelCount = 2;
-    game.state.states.Intro.levelCount = levelCount;
-    game.state.states.Level.levelCount = levelCount;
-    game.state.states.RoundOver.levelCount = levelCount;
+    var journeyLevelCount = 15;
+    var challengeLevelCount = 2;
+    game.state.states.Intro.journeylevelCount = journeyLevelCount;
+    game.state.states.Level.journeylevelCount = journeyLevelCount;
+    game.state.states.Intro.challengelevelCount = challengeLevelCount;
+    game.state.states.Level.challengelevelCount = challengeLevelCount;
     
    //Mobile stuff
     var ua = undefined;

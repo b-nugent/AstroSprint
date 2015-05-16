@@ -1,9 +1,17 @@
+var GAME_MODES = Object.freeze({
+  JOURNEY: 0,
+  CHALLENGE: 1
+});
+
 var LevelScreen = function(game){
-    this.levelCount = 0;
+    this.journeylevelCount = 0;
+    this.challengelevelCount = 0;
     this.buttons = undefined;
     this.titles = undefined;
     this.buttonSound = undefined;
     this.screenText = undefined;
+    this.modeButton = undefined;
+    this.mode = GAME_MODES.JOURNEY;
 }
     
 LevelScreen.prototype = {
@@ -24,11 +32,57 @@ LevelScreen.prototype = {
         
         this.screenText = game.add.text(game.world.width/2, 100, 'Level Select', { font: "900 'Orbitron', sans-serif", fontSize: '45px', fill: '#e2fbb6' });
         this.screenText.anchor.setTo(0.5, 0.5);
-        
+        this.reload();
+    },
+
+    reload: function(){
         this.buttons = game.add.group();
         this.titles = game.add.group();
+
+        this.loadLevels();
+        if(this.mode == GAME_MODES.JOURNEY){
+            this.modeButton = this.game.add.button(0, 0, "journey", this.switchMode, this);
+        }
+        if(this.mode == GAME_MODES.CHALLENGE){
+             this.modeButton = this.game.add.button(0, 0, "challenge", this.switchMode, this);
+        }
+    },
+    
+    playGame: function(button){
+        this.buttonSound.play();
+        this.game.state.states.Game.buttonSound = this.buttonSound;
+        this.game.state.states.Game.currentLevel = button.level;
+        this.game.state.start("Game");
+    },
+    
+    switchMode: function(){
+        this.buttonSound.play();
+        if(this.mode == GAME_MODES.JOURNEY){
+            this.mode = GAME_MODES.CHALLENGE;
+        }
+        else if(this.mode == GAME_MODES.CHALLENGE){
+            this.mode = GAME_MODES.JOURNEY;
+        }
+        this.modeButton.destroy();
+        this.buttons.destroy();
+        this.titles.destroy();
+        this.reload();
+    },
+    
+    shutdown: function(){
         
-        for(var i = 0; i < this.levelCount; i++)
+    },
+    loadLevels: function(){
+        var levelCount, storageText;
+        if(this.mode == GAME_MODES.JOURNEY){
+            levelCount = this.journeylevelCount;
+            storageText = "journeyLevel";
+        }
+        if(this.mode == GAME_MODES.CHALLENGE){
+            levelCount = this.challengelevelCount;
+            storageText = "challengeLevel";
+        }
+        for(var i = 0; i < levelCount; i++)
         {
             var y = 200;
             
@@ -50,7 +104,7 @@ LevelScreen.prototype = {
             this.buttons.add(button);
             this.titles.add(title);
             
-            var numStars = localStorage.getItem('level'+i+'_starCount');
+            var numStars = localStorage.getItem(storageText+i+'_starCount');
                                                 
             
             for( var j = 0; j < 3; j++)
@@ -66,16 +120,9 @@ LevelScreen.prototype = {
                 currentStar.scale = new Phaser.Point(scale,scale);
             }
         }
-
-    },
-
-    playGame: function(button){
-        this.buttonSound.play();
-        this.game.state.states.Game.buttonSound = this.buttonSound;
-        this.game.state.states.Game.currentLevel = button.level;
-        this.game.state.start("Game");
-    },
-    shutdown: function(){
         
+        game.state.states.Game.mode = storageText;
+        game.state.states.RoundOver.levelCount = levelCount;
+        game.state.states.RoundOver.storageText = storageText;
     }
 }
