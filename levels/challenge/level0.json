@@ -7,7 +7,7 @@
 			{"x":550, "y":300}
 		],
 		"planets":[
-			{"x":400, "y":300, "scale":1, "friction":1.0, "moveToX":450,"moveToY":350},
+			{"x":400, "y":300, "scale":1, "friction":1.0},
 			{"x":1200, "y":300, "scale":1, "friction":1.0},
 			{"x":400, "y":700, "scale":1, "friction":1.0},
 			{"x":1200, "y":700, "scale":1, "friction":1.0}
