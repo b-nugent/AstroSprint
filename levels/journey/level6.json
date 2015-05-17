@@ -1,12 +1,17 @@
 {"level":{
 		"stars":[
-			{"x":400, "y":575},{"x":100, "y":300},{"x":700, "y":300}
+			{"x":25, "y":400},
+			{"x":450, "y":550},
+			{"x":580, "y":350}
 		],
 		"planets":[
-			{"x":400, "y":105, "scale":0.5, "friction":5}, {"x":225, "y":200, "scale":0.5, "friction":0.5}, {"x":225, "y":400, "scale":0.5, "friction":0.5},{"x":400, "y":495, "scale":0.5, "friction":0.5}, {"x":575, "y":200, "scale":0.5, "friction":0.5}, {"x":575, "y":400, "scale":0.5, "friction":0.5}
+			{"x":150, "y":150, "scale":0.65, "friction":1.0},
+			{"x":100, "y":400, "scale":0.5, "friction":1.0},
+			{"x":400, "y":500, "scale":0.5, "friction":1.0},
+			{"x":650, "y":350, "scale":0.5, "friction":1.0}
 		],
 		"wormholes":[
-			{"x":400, "y":300, "scale":1.0, "renderAngle":30.0}
+			{"x":400, "y":300, "scale":1.5, "renderAngle":0.0}
 		]
 	}
 }
