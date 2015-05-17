@@ -101,7 +101,7 @@ var GameScreen = function(game)
                 this.currentAngle = Math.atan2(this.numEnemies[i].planet.y - this.numEnemies[i].y, this.numEnemies[i].planet.x - this.numEnemies[i].x);
                 this.numEnemies[i].body.rotation = this.currentAngle + game.math.degToRad(90) * -1;
                 this.enemyMove(this.numEnemies[i], this.currentAngle, 1.0);
-                this.applyEnemyGravity(this.numEnemies[0], this.currentAngle);
+                this.applyEnemyGravity(this.numEnemies[i], this.currentAngle);
                 
             }
             
