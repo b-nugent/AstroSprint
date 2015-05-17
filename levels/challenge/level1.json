@@ -25,6 +25,9 @@
 		],
 		"enemies":[
 			{"x":125, "y":250, "scale":1.0, "planet":1}
-		]
+		],
+		"oxygenTanks":[
+		],
+		"timer":60
 	}
 }

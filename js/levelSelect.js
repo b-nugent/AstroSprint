@@ -27,7 +27,7 @@ LevelScreen.prototype = {
 
     create: function(){
         console.log("level create");
-        var bg = this.game.add.sprite(0, 0, 'sky');
+        var bg = this.game.add.sprite(0, 0, 'skyLarge');
         bg.tint = 0x525252;
         
         this.screenText = game.add.text(game.world.width/2, 100, 'Level Select', { font: "900 'Orbitron', sans-serif", fontSize: '45px', fill: '#e2fbb6' });

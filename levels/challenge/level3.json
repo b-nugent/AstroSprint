@@ -20,7 +20,8 @@
 		"enemies":[
 			{"x":500, "y":100, "scale":0.9, "planet":0},
 			{"x":300, "y":600, "scale":0.9, "planet":0},
-			{"x":600, "y":400, "scale":1.0, "planet":1}
+			{"x":600, "y":400, "scale":1.0, "planet":1},
+			{"x":1000, "y":625, "scale":1.0, "planet":3}
 		],
 		"oxygenTanks":[
 		],

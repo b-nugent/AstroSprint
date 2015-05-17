@@ -21,7 +21,7 @@ RoundFailedScreen.prototype = {
 
     create: function(){
         console.log("RoundOver create");
-        var bg = this.game.add.sprite(0, 0, 'sky');
+        var bg = this.game.add.sprite(0, 0, 'skyLarge');
         bg.tint = 0x525252;
         var complete = this.game.add.sprite(game.world.width/2, 150, "levelfailed");
         complete.anchor.setTo(0.5, 0.5);

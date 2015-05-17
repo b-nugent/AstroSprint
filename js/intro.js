@@ -27,6 +27,7 @@ IntroScreen.prototype = {
         this.game.load.image('retry', 'assets/retry.png');
         //this.game.load.image('quit', 'assets/quit.png');
         this.game.load.image('sky', 'assets/sky.png');
+        this.game.load.image('skyLarge', 'assets/sky2.png');
         this.game.load.image('wormhole', 'assets/wormhole.png');
         this.game.load.image('star', 'assets/star.png');
         this.game.load.image('darkstar', 'assets/darkstar.png');
@@ -86,7 +87,7 @@ IntroScreen.prototype = {
 
     create: function(){
         console.log("Intro create");
-        var bg = this.game.add.sprite(0, 0, 'sky');
+        var bg = this.game.add.sprite(0, 0, 'skyLarge');
         bg.scale = new Phaser.Point(0.5, 0.5);
         bg.tint = 0x525252;
         var logo = this.game.add.sprite(game.world.width/2, 200, "logo");

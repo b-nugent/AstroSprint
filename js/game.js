@@ -17,6 +17,8 @@ var GameScreen = function(game)
         this.numPlanets = undefined;
         //this.planetPos = undefined;
         
+        this.bg = undefined;
+        
         var numStars = 0;
         
         //this.totalScore = 0;
@@ -45,9 +47,10 @@ var GameScreen = function(game)
     GameScreen.prototype = {
         init: function(){
             console.log("Game Screen Init");
-            var bg = game.add.tileSprite(0, 0, 800, 450, 'sky');
-            bg.scale = new Phaser.Point(.1,.1);
-            game.world.setBounds(0, 0, 1600, 900);
+            game.world.setBounds(0, 0, 3200, 1800);
+            this.bg = game.add.tileSprite(0, 0, 3200, 1800, 'sky');
+            //this.bg.generateTilingTexture(true);
+            //this.bg.scale = new Phaser.Point(.1,.1);
             //start the physics system
             game.physics.startSystem(Phaser.Physics.P2JS);
         },
@@ -94,7 +97,7 @@ var GameScreen = function(game)
         
         update: function(){
             //game.camera.focusOnXY(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2);
-            
+            this.bg.tilePosition.x = 5;
             //increment timer
             // Move all of the enemies
             for(var i = 0; i < this.numEnemies.length; i++) {
