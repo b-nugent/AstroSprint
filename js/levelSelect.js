@@ -11,6 +11,7 @@ var LevelScreen = function(game){
     this.buttonSound = undefined;
     this.screenText = undefined;
     this.modeButton = undefined;
+    this.backgroundMusic = undefined;
     this.mode = GAME_MODES.JOURNEY;
 }
     
@@ -59,9 +60,15 @@ LevelScreen.prototype = {
         this.buttonSound.play();
         if(this.mode == GAME_MODES.JOURNEY){
             this.mode = GAME_MODES.CHALLENGE;
+            this.backgroundMusic.pause();
+            this.backgroundMusic = game.add.audio('challengeMusic', 1, true);
+            this.backgroundMusic.play('', 0, 1, true);
         }
         else if(this.mode == GAME_MODES.CHALLENGE){
             this.mode = GAME_MODES.JOURNEY;
+            this.backgroundMusic.pause();
+            this.backgroundMusic = game.add.audio('journeyMusic', 1, true);
+            this.backgroundMusic.play('', 0, 1, true);
         }
         this.modeButton.destroy();
         this.buttons.destroy();

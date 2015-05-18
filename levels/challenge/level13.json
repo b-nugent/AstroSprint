@@ -1,0 +1,63 @@
+{"level":{
+		"stars":[
+		{"x":200, "y":165},
+		{"x":250, "y":315},
+		{"x":325, "y":465},
+		{"x":425, "y":590},
+		{"x":550, "y":690},
+		{"x":700, "y":765},
+		{"x":850, "y":765},
+		{"x":1000, "y":690},
+		{"x":1125, "y":590},
+		{"x":1050, "y":450},
+		{"x":900, "y":415},
+		{"x":750, "y":515}
+
+			
+				
+			
+		],
+		"planets":[
+			{"x":200, "y":100, "scale":0.5, "friction":1.0},
+			{"x":250, "y":250, "scale":0.5, "friction":1.0},
+			{"x":325, "y":400, "scale":0.5, "friction":1.0},
+			{"x":425, "y":525, "scale":0.5, "friction":1.0},
+			{"x":550, "y":625, "scale":0.5, "friction":1.0},
+			{"x":700, "y":700, "scale":0.5, "friction":1.0},
+			{"x":850, "y":700, "scale":0.5, "friction":1.0},
+			{"x":1000, "y":625, "scale":0.5, "friction":1.0},
+			{"x":1125, "y":525, "scale":0.5, "friction":1.0},
+			{"x":1050, "y":385, "scale":0.5, "friction":1.0},
+			{"x":900, "y":350, "scale":0.5, "friction":1.0},
+			{"x":750, "y":450, "scale":0.5, "friction":1.0},
+			
+			{"x":200, "y":650, "scale":0.75, "friction":1.0}
+		],
+		"wormholes":[
+			{"x":50, "y":50, "scale":0.5, "renderAngle":90.0}
+		],
+		"blackholes":[
+			{"x":100, "y":800, "scale":0.4, "renderAngle":90.0},
+			{"x":925, "y":500, "scale":0.4, "renderAngle":90.0}
+		],
+		"asteroids":[
+			{"x":670, "y":575, "scale":0.3, "renderAngle":30.0},
+			{"x":625, "y":525, "scale":0.3, "renderAngle":30.0},
+			{"x":570, "y":475, "scale":0.3, "renderAngle":30.0},
+			{"x":530, "y":425, "scale":0.3, "renderAngle":30.0},
+			{"x":490, "y":375, "scale":0.3, "renderAngle":30.0},
+			{"x":465, "y":325, "scale":0.3, "renderAngle":30.0},
+			{"x":425, "y":275, "scale":0.3, "renderAngle":30.0},
+			{"x":390, "y":225, "scale":0.3, "renderAngle":30.0},
+			{"x":350, "y":175, "scale":0.3, "renderAngle":30.0}
+
+		],
+		"enemies":[
+			{"x":200, "y":600, "scale":1.0, "planet":12}
+
+		],
+		"oxygenTanks":[
+		],
+		"timer":60
+	}
+}

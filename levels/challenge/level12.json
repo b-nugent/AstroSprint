@@ -1,77 +1,66 @@
 {"level":{
 		"stars":[
-			{"x":865, "y":165},
-			{"x":735, "y":165},
-			{"x":800, "y":230},
-			{"x":290, "y":140},
-			{"x":290, "y":290},
-			{"x":140, "y":290},
-			{"x":290, "y":610},
-			{"x":290, "y":760},
-			{"x":1310, "y":140},
-			{"x":1310, "y":290},
-			{"x":1460, "y":610},
-			{"x":1310, "y":610},
-			{"x":1310, "y":760}
+			{"x":475, "y":300},
+			{"x":400, "y":375},
+			{"x":325, "y":300},
+			{"x":625, "y":450},
+			{"x":550, "y":525},
+			{"x":475, "y":450},
+			{"x":775, "y":600},
+			{"x":700, "y":675},
+			{"x":625, "y":600},
+			{"x":800, "y":475},
+			{"x":725, "y":400},
+			
+			
+			{"x":1200, "y":25},
+			{"x":1200, "y":375},
+			{"x":1025, "y":200},
+			{"x":1375, "y":200},
+			{"x":1050, "y":50},
+			{"x":1350, "y":50},
+			{"x":1050, "y":350},
+			{"x":1350, "y":350}
+			
+			
+			
 		],
 		"planets":[
-			{"x":800, "y":165, "scale":0.4, "friction":1.0},
-			{"x":215, "y":215, "scale":0.75, "friction":1.0},
-			{"x":215, "y":685, "scale":0.75, "friction":1.0},
-			{"x":1385, "y":215, "scale":0.75, "friction":1.0},
-			{"x":1385, "y":685, "scale":0.75, "friction":1.0},
-			{"x":800, "y":450, "scale":1.5, "friction":1.0}
+			{"x":250, "y":150, "scale":0.6, "friction":1.0},
+			{"x":400, "y":300, "scale":0.6, "friction":1.0},
+			{"x":550, "y":450, "scale":0.6, "friction":1.0},
+			{"x":700, "y":600, "scale":0.6, "friction":1.0},
+			{"x":850, "y":750, "scale":0.6, "friction":1.0},
+			
+			{"x":800, "y":400, "scale":0.5, "friction":1.0},
+			
+			{"x":1200, "y":200, "scale":1.5, "friction":1.0},
+			{"x":250, "y":650, "scale":1.0, "friction":1.0}
 		],
 		"wormholes":[
-			{"x":800, "y":675, "scale":0.5, "renderAngle":90.0}
+			{"x":1050, "y":750, "scale":0.5, "renderAngle":90.0},
+			{"x":1450, "y":300, "scale":0.5, "renderAngle":90.0}
 		],
 		"blackholes":[
-			{"x":800, "y":25, "scale":0.3, "renderAngle":90.0},
-			{"x":100, "y":100, "scale":0.4, "renderAngle":90.0},
-			{"x":1500, "y":100, "scale":0.4, "renderAngle":90.0},
 			{"x":100, "y":800, "scale":0.4, "renderAngle":90.0},
-			{"x":1500, "y":800, "scale":0.4, "renderAngle":90.0}
+			{"x":1450, "y":100, "scale":0.4, "renderAngle":90.0}
 		],
 		"asteroids":[
-			{"x":250, "y":500, "scale":0.25, "renderAngle":30.0},
-			{"x":300, "y":550, "scale":0.25, "renderAngle":30.0},
-			{"x":350, "y":600, "scale":0.25, "renderAngle":30.0},
-			{"x":400, "y":650, "scale":0.25, "renderAngle":30.0},
-			{"x":450, "y":700, "scale":0.25, "renderAngle":30.0},
-			{"x":500, "y":750, "scale":0.25, "renderAngle":30.0},
-			
-			{"x":1100, "y":150, "scale":0.25, "renderAngle":30.0},
-			{"x":1150, "y":200, "scale":0.25, "renderAngle":30.0},
-			{"x":1200, "y":250, "scale":0.25, "renderAngle":30.0},
-			{"x":1250, "y":300, "scale":0.25, "renderAngle":30.0},
-			{"x":1300, "y":350, "scale":0.25, "renderAngle":30.0},
-			{"x":1350, "y":400, "scale":0.25, "renderAngle":30.0},
-			
-			{"x":250, "y":400, "scale":0.25, "renderAngle":-60.0},
-			{"x":300, "y":350, "scale":0.25, "renderAngle":-60.0},
-			{"x":350, "y":300, "scale":0.25, "renderAngle":-60.0},
-			{"x":400, "y":250, "scale":0.25, "renderAngle":-60.0},
-			{"x":450, "y":200, "scale":0.25, "renderAngle":-60.0},
-			{"x":500, "y":150, "scale":0.25, "renderAngle":-60.0},
-			
-			{"x":1100, "y":750, "scale":0.25, "renderAngle":-60.0},
-			{"x":1150, "y":700, "scale":0.25, "renderAngle":-60.0},
-			{"x":1200, "y":650, "scale":0.25, "renderAngle":-60.0},
-			{"x":1250, "y":600, "scale":0.25, "renderAngle":-60.0},
-			{"x":1300, "y":550, "scale":0.25, "renderAngle":-60.0},
-			{"x":1350, "y":500, "scale":0.25, "renderAngle":-60.0}
+			{"x":1075, "y":425, "scale":0.3, "renderAngle":30.0},
+			{"x":1025, "y":375, "scale":0.3, "renderAngle":30.0},
+			{"x":975, "y":325, "scale":0.3, "renderAngle":30.0},
+			{"x":925, "y":275, "scale":0.3, "renderAngle":30.0},
+			{"x":875, "y":225, "scale":0.3, "renderAngle":30.0},
+			{"x":825, "y":175, "scale":0.3, "renderAngle":30.0}
 
 		],
 		"enemies":[
-			{"x":800, "y":650, "scale":1.0, "planet":5},
-			{"x":800, "y":250, "scale":1.0, "planet":5},
-			{"x":600, "y":450, "scale":1.0, "planet":5},
-			{"x":1000, "y":450, "scale":1.0, "planet":5}
+			{"x":200, "y":500, "scale":1.0, "planet":7}
 
 		],
 		"oxygenTanks":[
-			{"x":140, "y":610},
-			{"x":1460, "y":140}
+			{"x":800, "y":325},
+			{"x":875, "y":400}
 		],
 		"timer":60
 	}

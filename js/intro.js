@@ -47,7 +47,9 @@ IntroScreen.prototype = {
         this.game.load.image('blackhole', 'assets/teleporter.png');
         
         // Journey mode background music from: https://www.freeplaymusic.com
-        this.game.load.audio('backgroundMusic', 'assets/audio/journey_mode_audio.mp3');
+        this.game.load.audio('journeyMusic', 'assets/audio/journey_mode_audio.mp3');
+        // Challenge mode background music from: https://www.freeplaymusic.com
+        this.game.load.audio('challengeMusic', 'assets/audio/challenge_mode_audio.mp3');
         // Jump sound from: http://soundbible.com/1343-Jump.html
         this.game.load.audio('jumpSound', 'assets/audio/jump_audio.mp3');
         // Wormhole sound from: http://soundbible.com/1639-Power-Up.html
@@ -94,7 +96,7 @@ IntroScreen.prototype = {
         logo.anchor.setTo(0.5,0.5);
         
         // Loading the background music.
-        this.backgroundMusic = game.add.audio('backgroundMusic', 1, true);
+        this.backgroundMusic = game.add.audio('journeyMusic', 1, true);
         this.backgroundMusic.play('', 0, 1, true);
         
         var playButton = this.game.add.button(game.world.width/2, game.world.height - 150, "play", this.playGame, this);
@@ -113,7 +115,9 @@ IntroScreen.prototype = {
     playGame: function(){
         this.buttonSound.play();
         this.game.state.states.Level.buttonSound = this.buttonSound;
+        this.game.state.states.Level.backgroundMusic = this.backgroundMusic;
         this.game.state.start("Level");
+        this.backgroundMusic.pause();
     },
     shutdown: function(){
         console.log("intro state left");
