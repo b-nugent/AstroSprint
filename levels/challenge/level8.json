@@ -1,0 +1,61 @@
+{"level":{
+		"stars":[
+			{"x":285, "y":285},
+			{"x":300, "y":450},
+			{"x":285, "y":735},
+			{"x":800, "y":300},
+			{"x":800, "y":600},
+			{"x":1315, "y":285},
+			{"x":1300, "y":450},
+			{"x":1315, "y":735}
+		],
+		"planets":[
+			{"x":800, "y":450, "scale":0.60, "friction":1.0},
+			{"x":225, "y":225, "scale":0.60, "friction":1.0},
+			{"x":225, "y":450, "scale":0.60, "friction":1.0},
+			{"x":225, "y":675, "scale":0.60, "friction":1.0},
+			{"x":800, "y":225, "scale":0.60, "friction":1.0},
+			{"x":800, "y":675, "scale":0.60, "friction":1.0},
+			{"x":1375, "y":225, "scale":0.60, "friction":1.0},
+			{"x":1375, "y":450, "scale":0.60, "friction":1.0},
+			{"x":1375, "y":675, "scale":0.60, "friction":1.0}
+		],
+		"wormholes":[
+			{"x":800, "y":525, "scale":0.4, "renderAngle":90.0}
+		],
+		"blackholes":[
+			{"x":100, "y":100, "scale":0.35, "renderAngle":90.0},
+			{"x":50, "y":450, "scale":0.35, "renderAngle":90.0},
+			{"x":100, "y":800, "scale":0.35, "renderAngle":90.0},
+			{"x":800, "y":50, "scale":0.35, "renderAngle":90.0},
+			{"x":800, "y":850, "scale":0.35, "renderAngle":90.0},
+			{"x":1500, "y":100, "scale":0.35, "renderAngle":90.0},
+			{"x":1550, "y":450, "scale":0.35, "renderAngle":90.0},
+			{"x":1500, "y":800, "scale":0.35, "renderAngle":90.0}
+		],
+		"asteroids":[
+			{"x":533.33, "y":100, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":225, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":350, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":450, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":550, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":675, "scale":0.85, "renderAngle":90.0},
+			{"x":533.33, "y":800, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":100, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":225, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":350, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":450, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":550, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":675, "scale":0.85, "renderAngle":90.0},
+			{"x":1066.66, "y":800, "scale":0.85, "renderAngle":90.0}
+		],
+		"enemies":[
+		],
+		"oxygenTanks":[
+			{"x":225, "y":562.5},
+			{"x":1375, "y":337.5}
+
+		],
+		"timer":60
+	}
+}

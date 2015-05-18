@@ -334,6 +334,8 @@ var GameScreen = function(game)
                             this.blackholeSound.play();
                             if (!this.player.teleporting) {
                                 this.teleportPlayer(body);
+                            } else {
+                                this.player.teleporting = false;
                             }
                             break;
                         case "oxygen":
@@ -358,7 +360,6 @@ var GameScreen = function(game)
                             this.playerForceReset(this.player);
                             // Looks for the closest planet for the player to land on.
                             this.calculateTargetPlanet(this.player, this.planets);
-                            this.player.teleporting = false;
                             break;
                 }
             }
@@ -590,6 +591,7 @@ var GameScreen = function(game)
                      currentAsteroid.body.setCircle(100 * asteroid.scale);
                      currentAsteroid.scale = new Phaser.Point(asteroid.scale, asteroid.scale);
                      currentAsteroid.renderAngle = asteroid.renderAngle;
+                     currentAsteroid.body.angle = asteroid.renderAngle;
                  }
             }
             //Timer
@@ -607,22 +609,8 @@ var GameScreen = function(game)
             this.currentAngle = 0;
             
             
-            // Set camera parameters
-            //game.world.setBounds(0, 0, 800, 600);
-            //game.camera.visible = true;
-            //game.camera.scale = 0.5;
-            //game.camera.focusOnXY(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2);
-            //this.camera = Phaser.camera(this.player.body.x - (game.camera.view.width + this.player.body.x)/2, this.player.body.y - (game.camera.view.height + this.player.body.y)/2, 200, 200);
-            
-            //game.camera.setSize(300, 300);
-            //game.camera.x = this.player.body.x;// - game.camera.view.width/2;
-           // game.camera.y = this.player.body.y;// - game.camera.view.height/2;
-            
-            //game.camera.view = new Phaser.Rectangle(0, 0, 100, 100);
-            //game.camera.setSize(200, 200);
-            //game.camera.focusOn(this.player);
+            // Set camera to follow the player
             game.camera.follow(this.player);
-            //this.camera.deadzone = new Phaser.Rectangle(this.camera.x, this.camera.y, 20, 20);
 
         },
         
